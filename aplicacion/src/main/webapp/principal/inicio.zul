@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" ?>
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<?page zscriptLanguage="Groovy" style="height:100%"?>
+<?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c"?>
+
+<zk xmlns:n="http://www.zkoss.org/2005/zk/native"
+    xmlns="http://www.zkoss.org/2005/zul">
+    
+    <window id="wndPrincipal" apply="es.carm.pcacervix.PrincipalComposer" border="none" position="center">
+		<!-- Inicio Cuerpo -->
+		<script src="js/menu-lateral.js" />
+		<n:div class="mb-4">
+			<zk forEach="${modulos}">
+				<div fulfill="=${each}" />
+			</zk>
+		</n:div>
+		<!-- Fin Cuerpo -->
+	</window>
+</zk>

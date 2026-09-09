@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<?page title="Persona" contentType="text/html;charset=UTF-8" zscriptLanguage="Groovy" style="height:100%"?>
+<?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c"?>
+<?component name="detallePersona"  macroURI="~./persona/datosPersona.zul"?>
+<!-- <?component name="documentoWeb" macroURI="~./macros/documentoWeb.zul"?>
+	<?component name="edocumento" macroURI="~./macros/edocumento.zul"?>-->
+<zk xmlns:n="http://www.zkoss.org/2005/zk/native"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.zkoss.org/2005/zul"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul
+			http://www.zkoss.org/2005/zul/zul.xsd">
+
+    <n:div class="container-fluid">
+        <vlayout id="vlPersona" apply="es.carm.pcacervix.personas.PersonaComposer" visible="false">
+
+            <n:div class="container-fluid">
+                <button id="btnExpedientePersona" label="Ver Expediente" iconSclass="z-icon-eye"
+                        class="btn btn-info btn-md" disabled="false" style="margin-bottom: 5px;"/>
+            </n:div>
+            <detallePersona/>
+
+        </vlayout>
+    </n:div>
+</zk>

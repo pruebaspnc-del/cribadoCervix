@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<?page zscriptLanguage="Groovy" style="height:100%"?>
+<?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+  xmlns:n="http://www.zkoss.org/2005/zk/native"
+>
+  <vlayout id="vlDispensacionesFarmacia"
+    apply="es.carm.pcacervix.monitorizacion.DispensacionesFarmaciaComposer" visible="false">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="panel panel-primary">
+          <n:div class="panel-heading">Dispensaciones registradas desde Farmacias</n:div>
+          <div class="panel-body">
+            <n:div class="container-fluid">
+              <n:div class="row">
+                <n:div class="col-md-3">
+                  <n:label class="col-form-label w-100">Fecha dispensación desde:</n:label>
+                </n:div>
+                <n:div class="col-md-5">
+                  <datebox id="dbFechaDesdeDisFar" class="entrada-datos valor" width="110px"
+                    format="dd/MM/yyyy" constraint="no future"/>
+                  <space></space>
+                  <n:label class="col-form-label w-100">hasta:</n:label>
+                  <space></space>
+                  <datebox id="dbFechaHastaDisFar" class="entrada-datos valor" width="110px"
+                    format="dd/MM/yyyy" constraint="no future"/>
+                </n:div>
+                <n:div class="col-md-4">
+                  <n:label class="col-form-label w-100">Código Producto:</n:label>
+                  <space></space>
+                  <textbox id="tbCodProductoDisFar" width="125px"
+                    forward="onOK=btnBuscarDisFar.onClick" onFocus="true"
+                    class="form-control form-control-buscador" style="display: inline;"/>
+                </n:div>
+              </n:div>
+              <separator spacing="8px"/>
+              <n:div class="row">
+                <n:div class="col-md-3">
+                  <n:label class="col-form-label w-100">Zona Básica de Salud:</n:label>
+                </n:div>
+                <n:div class="col-md-9">
+                  <listbox id="lbZonaSaludDisFar" mold="select"
+                    class="form-control entrada-datos valor" width="350px"/>
+                </n:div>
+              </n:div>
+              <separator spacing="8px"/>
+              <n:div class="row">
+                <n:div class="col-md-3">
+                  <n:label class="col-form-label w-100">Farmacia:</n:label>
+                </n:div>
+                <n:div class="col-md-9">
+                  <listbox id="lbFarmaciaDisFar" mold="select"
+                    class="form-control entrada-datos valor" width="350px"/>
+                </n:div>
+              </n:div>
+              <separator spacing="20px"/>
+              <n:div class="row">
+                <n:div class="col-md-12 ">
+                  <button id="btnBuscarDisFar" label="BUSCAR" iconSclass="z-icon-search"
+                    zclass="btn" class="btn btn-primary btn-xs pull-left"/>
+                  <button id="btnLimpiarFiltrosDisFar" label="LIMPIAR BÚSQUEDA"
+                    iconSclass="z-icon-trash" zclass="btn"
+                    class="btn btn-warning btn-xs pull-right limpiarFiltro"/>
+                </n:div>
+              </n:div>
+            </n:div>
+            <separator spacing="5px"/>
+            <n:div class="container-fluid">
+              <listbox id="lbListaDisFar" sizedByContent="true" height="null" mold="paging"
+                pageSize="10" span="true" emptyMessage="Ningún registro para mostrar">
+                <listhead sizable="true">
+                  <listheader label="Fecha Dispensación" sort="auto(fec_dispensacion)"/>
+                  <listheader label="Código Producto"/>
+                  <listheader label="Farmacia" sort="auto(cod_farmacia)"/>
+                  <listheader label="Profesional" sort="auto(profesional)"/>
+                  <listheader label="Estado Actual" sort="auto(codigo)"/>
+                  <listheader label="Id Expediente"/>
+                </listhead>
+                <listitem self="@{each=dispensacion}" value="@{dispensacion}">
+                  <listcell>
+                    <label value="@{dispensacion.fec_dispensacion}"/>
+                  </listcell>
+                  <listcell>
+                    <label value="@{dispensacion.cod_producto}"/>
+                  </listcell>
+                  <listcell>
+                    <label value="@{dispensacion.cod_farmacia}"/>
+                  </listcell>
+                  <listcell>
+                    <label value="@{dispensacion.profesional}"/>
+                  </listcell>
+                  <listcell>
+                    <label value="@{dispensacion.codigo}"/>
+                  </listcell>
+                  <listcell>
+                    <label value="@{dispensacion.id_expediente}"/>
+                  </listcell>
+                </listitem>
+              </listbox>
+            </n:div>
+          </div>
+        </div>
+        <window id="wndEdicionDispensacionesFarmacia" visible="false" closable="true"
+          class="ventana-modal" position="center" width="80%">
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <n:div class="row">
+                <n:div class="col-md-7">
+                  <label id="tituloEdicionDispensacionesFarmacia" class="panel-title"
+                    style="font-weight:bold; font-size:12pt">Detalle del Producto
+                  </label>
+                </n:div>
+                <n:div class="col-md-4"></n:div>
+                <n:div class="col-md-1">
+                  <button id="btnCerrarVentanaDispensacionesFarmacia"
+                    onClick="wndEdicionDispensacionesFarmacia.visible=false"
+                    iconSclass="z-icon-times" class="btn btn-xs pull-right"/>
+                </n:div>
+              </n:div>
+            </div>
+            <n:div class="panel-body mb-3">
+              <n:div class="container-fluid">
+                <n:div class="row">
+                  <n:div class="col-md-2">
+                    <n:label class="col-form-label">Cod Producto:</n:label>
+                  </n:div>
+                  <n:div class="col-md-3">
+                    <textbox id="dispensacionFarmacia_cod_producto" class="entrada-datos valor"
+                      width="120px"/>
+                  </n:div>
+                  <n:div class="col-md-2">
+                    <n:label class="col-form-label">Fec Dispensación:</n:label>
+                  </n:div>
+                  <n:div class="col-md-3">
+                    <datebox id="dispensacionFarmacia_fec_dispensacion" class="entrada-datos valor"
+                      width="110px" format="dd/MM/yyyy"/>
+                  </n:div>
+                </n:div>
+                <separator spacing="10px"/>
+                <n:div class="row">
+                  <n:div class="col-md-2">
+                    <n:label class="col-form-label">Cod Farmacia:</n:label>
+                  </n:div>
+                  <n:div class="col-md-3">
+                    <textbox id="dispensacionFarmacia_cod_farmacia" width="60px"
+                      class="form-control form-control-buscador" style="display: inline;"/>
+                  </n:div>
+                  <n:div class="col-md-2">
+                    <n:label class="col-form-label">Estado Actual:</n:label>
+                  </n:div>
+                  <n:div class="col-md-3">
+                    <textbox id="dispensacionFarmacia_codigo" width="130px"
+                      class="form-control form-control-buscador" style="display: inline;"/>
+                  </n:div>
+                </n:div>
+                <separator spacing="10px"/>
+                <n:div class="row">
+                  <n:div class="col-md-2">
+                    <n:label class="col-form-label">Id Expediente:</n:label>
+                  </n:div>
+                  <n:div class="col-md-3">
+                    <textbox id="dispensacionFarmacia_id_expediente" width="110px"
+                      class="form-control form-control-buscador" style="display: inline;"/>
+                  </n:div>
+                  <n:div class="col-md-2">
+                    <n:label class="col-form-label">Prof. Farmacia:</n:label>
+                  </n:div>
+                  <n:div class="col-md-5">
+                    <textbox id="dispensacionFarmacia_profesional" width="380px"
+                      class="form-control form-control-buscador" readonly="true"
+                      style="display: inline;"/>
+                  </n:div>
+                </n:div>
+                <separator spacing="10px"/>
+                <n:div class="row">
+                  <n:div class="col-md-12">
+                    <button id="btnReenvioPetElec" label="REENVIO PET.ELEC"
+                      onClick="$composer.clicReenvioPetElec()"
+                      zclass="btn" class="btn btn-primary btn-xs pull-left" disabled="true"/>
+                  </n:div>
+                </n:div>
+              </n:div>
+              <separator spacing="10px"/>
+              <n:div class="container-fluid">
+                <listbox id="lbHistorialDisFar" sizedByContent="true" height="null" mold="paging"
+                  pageSize="10" span="true" emptyMessage="Ningún registro para mostrar">
+                  <listhead sizable="true">
+                    <listheader label="Orden"/>
+                    <listheader label="Estado del Producto"/>
+                    <listheader label="Descripción"/>
+                    <listheader label="Fecha Estado"/>
+                  </listhead>
+                  <listitem self="@{each=hDispensacion}" value="@{hDispensacion}">
+                    <listcell>
+                      <label value="@{hDispensacion.contador}"/>
+                    </listcell>
+                    <listcell>
+                      <label value="@{hDispensacion.codigo}"/>
+                    </listcell>
+                    <listcell>
+                      <label value="@{hDispensacion.descripcion}"/>
+                    </listcell>
+                    <listcell>
+                      <label value="@{hDispensacion.fec_estado}"/>
+                    </listcell>
+                  </listitem>
+                </listbox>
+              </n:div>
+            </n:div>
+          </div>
+        </window>
+      </div>
+    </div>
+  </vlayout>
+</zk>

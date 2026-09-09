@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<?page zscriptLanguage="Groovy" style="height:100%"?>
+<?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c"?>
+<?component name="botoneraFormularioSanidad"  inline="true" macroURI="~./base/botoneraFormularioSanidad.zul"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul" xmlns:h="http://www.w3.org/1999/xhtml" 
+xmlns:n="http://www.zkoss.org/2005/zk/native" xmlns:w="http://www.zkoss.org/2005/zk/client" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.zkoss.org/2005/zul/zul.xsd">
+<n:div class="container-fluid">
+	<vlayout id="vlInicio" apply="es.carm.pcacervix.InicioComposer" visible="false">
+		<div class="resto-perfiles">
+			<n:div class="container-fluid mb-5 mt-2">
+				<n:div class="col-md-12 ml-auto mr-auto">
+					<n:div class="row">
+						<n:div class="col-12 mb-5">
+							<n:div class="card card-gris">
+								<n:div class="card-body">
+									<n:h3 class="card-title">Bienvenido al Programa de Cribado de Cáncer de Cérvix</n:h3>
+								</n:div>
+							</n:div>
+						</n:div>
+					</n:div>
+				</n:div>
+			</n:div>
+		</div>
+		<div class ="solo-coordinador">
+			<n:div class="container-fluid mb-5 mt-2">
+				<n:div class="col-md-12 ml-auto mr-auto">
+					<n:div class="row">
+						<n:div class="col-12 mb-5">
+							<n:div class="card card-gris">
+								<n:div class="card-body">
+									<n:h3 class="card-title">Programa de Cribado de Cáncer de Cérvix</n:h3>
+								</n:div>
+							</n:div>
+						</n:div>
+					</n:div>
+				</n:div>
+			</n:div>
+		</div>
+	</vlayout>
+</n:div>
+</zk>

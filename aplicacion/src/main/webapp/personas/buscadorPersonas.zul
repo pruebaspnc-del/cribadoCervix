@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<?page zscriptLanguage="Groovy" style="height:100%"?>
+<?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c"?>
+<?component name="buscadorPersona"  macroURI="~./componentes/buscadorPersona.zul"?>
+<zk xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.zkoss.org/2005/zul"
+	xsi:schemaLocation="http://www.zkoss.org/2005/zul
+			http://www.zkoss.org/2005/zul/zul.xsd">
+
+    <vlayout id="vlBuscadorPersonas" apply="es.carm.pcacervix.personas.BuscadorPersonasComposer" visible="false">
+
+        <buscadorPersona/>
+
+    </vlayout>
+
+</zk>

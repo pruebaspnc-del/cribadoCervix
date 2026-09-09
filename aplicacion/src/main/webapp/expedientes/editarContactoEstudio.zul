@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<?page zscriptLanguage="Groovy" style="height:100%"?>
+<?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul"
+	xmlns:h="http://www.w3.org/1999/xhtml"
+	xmlns:n="http://www.zkoss.org/2005/zk/native"
+	xmlns:w="http://www.zkoss.org/2005/zk/client"
+	xmlns:ca="http://www.zkoss.org/2005/zk/client/attribute"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.zkoss.org/2005/zul/zul.xsd">	
+
+	<window id="wndEditarContactoEstudio" apply="es.carm.pcacervix.expedientes.EditarContactoEstudioComposer" closable="true" class="ventana-modal" border="none" position="center" visible="false" width="80%">
+		
+		<div class="row">
+			<div class="col-md-12">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<n:div class="row">
+							<n:div class="col-md-3 col-12">
+								<label class="panel-title" id="tituloContactoExp" style="font-weight:bold; font-size:12pt"></label>
+							</n:div>
+							<n:div class="col-md-6 col-12" style="text-align: center;">
+								<label class="panel-title" id="identifPacienteContacto" style="font-weight:bold; font-size:12pt;"></label>
+							</n:div>
+							<n:div class="col-md-2 col-12"></n:div>
+							<n:div class="col-md-1 col-12">
+								<button id="btnCerrarVentanaContacto" iconSclass="z-icon-times" visible = "false" autodisable="true" class="btn btn-xs pull-right" /> 
+							</n:div>
+						</n:div>
+					</div>
+					<n:div class="panel-body mb-3">
+						<n:div class="container-fluid">	
+								<n:div class="row">
+									<textbox id="contacto_id" class="entrada-datos" visible="false"/>
+									<n:div class=" col-md-8">
+										<n:label class="col-form-label w-50" style="display: contents;">Motivo de Contacto:</n:label>
+										<listbox id="contacto_id_motivo_contacto" style="display: inline;" mold="select" width="55%" disabled="true" class="form-control entrada-datos valor"/>
+									</n:div>
+									<div class="col-md-4">
+										<n:label class="col-form-label">ID Estudio:</n:label>
+										<textbox  id="contacto_id_estudio" style="border-style : none;" width="70%" readonly="true" disabled="true"/>
+									</div>
+								</n:div>
+								<separator spacing="12px" />	
+								<n:div class="row">
+									<n:div class=" col-md-4">
+										<n:label class="col-form-label w-100">Fecha:</n:label>
+										<datebox id="contacto_fecha" class="entrada-datos valor" width="50%" format="dd/MM/yyyy HH:mm" />
+									</n:div>
+									<div class="col-md-4">
+										<n:label class="campoObligatorio">*</n:label>
+										<n:label class="col-form-label w-50" style="display: contents;">¿Contactado?</n:label>
+										<listbox id="contacto_contactado" style="display: inline;" mold="select" width="40%" class="form-control entrada-datos valor" >
+											<listitem label="Seleccione.."></listitem>
+											<listitem label="Si" value="1"></listitem>
+											<listitem label="No" value="0"></listitem>
+										</listbox>
+									</div>
+									<div class="col-md-4">
+										<n:label class="col-form-label">Profesional:</n:label>
+										<textbox  id="contacto_id_profesional" style="border-style : none;" readonly="true" visible="false"/>
+										<textbox  id="contacto_nombre_profesional" style="border-style : none;" width="70%" readonly="true"/>
+									</div>
+								</n:div>
+								<separator spacing="12px" />	
+								<n:div class="row">
+									<div id="div_textbox_MedioComun" class="col-md-4">
+										<n:label class="col-form-label">Medio de Comunicación:</n:label>
+										<textbox style="border-style : none;" id="contacto_valor_medio_comunicacion" width="30%"/>
+									</div>
+									<div id="div_lb_medios_comun" class="col-md-4">
+										<n:label class="campoObligatorio">*</n:label>
+										<n:label class="col-form-label">Medio Comunicación:</n:label>
+										<listbox id="lbmedios_comunicacion" mold="paging" width="302px" checkmark="true" sizedByContent="true" >
+											<listhead sizable="true">
+												<listheader label="Tipo"/>
+												<listheader label="Valor"/>
+											</listhead>
+											<listitem self="@{each=medioCom}" value="@{medioCom.VALOR}">
+												<listcell><label value ="@{medioCom.MEDIO_COMUNICACION}" style="border-style : none; background: none;" /></listcell>
+												<listcell><textbox value ="@{medioCom.VALOR}" style="border-style : none;" disabled="true"/></listcell>
+											</listitem>
+										</listbox>
+									</div>
+									<n:div class="col-md-8">
+										<n:label class="col-form-label">Observaciones:</n:label>
+										<textbox id="contacto_observaciones" class="entrada-datos" width="70%" rows="3" disabled="true" />
+									</n:div>
+								</n:div>
+								<textbox id="contacto_baseChecksum" visible="false"/>
+						</n:div>
+					<separator spacing="30px" />	
+					<button id="btnEditarContacto" iconSclass="z-icon-pencil" autodisable="true" class="btn btn-info btn-big pull-right" label="Editar"/> 
+					<button id="btnGuardarContactoEst" label="Guardar" autodisable="self" iconSclass="z-icon-save" class="guardar btn-error btn-big" />
+					<button id="btnDescartarContactoEst" label="Cancelar" iconSclass="z-icon-times" class="descartar tn btn-big" style="margin-left: 10px"/>
+					</n:div>		
+				</div>
+			</div>
+		</div>
+	</window>
+</zk>

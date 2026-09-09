@@ -1,0 +1,454 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<?page zscriptLanguage="Groovy" style="height:100%"?>
+<?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul"
+	xmlns:h="http://www.w3.org/1999/xhtml"
+	xmlns:n="http://www.zkoss.org/2005/zk/native"
+	xmlns:w="http://www.zkoss.org/2005/zk/client"
+	xmlns:ca="http://www.zkoss.org/2005/zk/client/attribute"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.zkoss.org/2005/zul/zul.xsd">	
+
+<style>
+	.itemAnalito > .z-listbox-body table tbody{
+		display:flex;
+	}
+	.itemAnalito > .z-listbox-body table tbody tr td{
+	    border-right: solid 1px white;
+	}
+	.itemAnalito > .z-listbox-body table tbody tr td{
+	    background-color: lightgray;
+	}
+</style>
+	<window id="wndEditarPruebasEstudio" apply="es.carm.pcacervix.expedientes.PruebaComposer" closable="true" class="ventana-modal" border="none" position="center" visible="false" width="80%">
+		
+		<div class="row">
+			<div class="col-md-12">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<n:div class="row">
+							<n:div class="col-md-3 col-12">
+								<label class="panel-title" id="tituloPruebaExp" style="font-weight:bold; font-size:12pt"></label>
+							</n:div>
+							<n:div class="col-md-6 col-12" style="text-align: center;">
+								<label class="panel-title" id="identifPaciente" style="font-weight:bold; font-size:12pt"></label>
+							</n:div>
+							<n:div class="col-md-3 col-12">
+								<button id="btnCerrarVentana" iconSclass="z-icon-times" visible = "false" autodisable="true" class="btn btn-xs pull-right" /> 
+							</n:div>
+						</n:div>
+					</div>
+					<n:div class="panel-body mb-3">
+						<n:div class="container-fluid">	
+							<div id="datosInsercion" visible="false">
+								<n:div class="row">
+                                    <div id="divIdPrueba">
+                                        <n:div class="form-group col-md-4 col-12">
+                                            <n:label class="col-form-label w-100">ID Prueba: </n:label>
+                                            <textbox id="prueba_id" class="entrada-datos valor" type="text" width="inherit"/>
+                                        </n:div>
+                                    </div>
+									<n:div class="form-group col-md-4 col-12">
+										<n:label class="col-form-label w-100">Tipo: </n:label>
+										<listbox id="prueba_id_tipo_prueba"  mold="select" width="80%" style="display: inline;" class="form-control entrada-datos valor"/>
+									</n:div>	
+									<n:div class="form-group col-md-4 col-12">
+										<n:label class="campoObligatorio">*</n:label>
+										<n:label class="col-form-label w-100">COD Producto: </n:label>
+										<textbox id="prueba_cod_producto" class="form-control entrada-datos valor" style="display: inline;" type="text" width="50%"/>
+									</n:div>
+									
+								</n:div>
+								<separator spacing="8px" />	
+							</div>
+							<div id="datosVista" visible="false">
+								<n:div class="row">
+									<n:div class="form-group col-md-4 col-12">
+										<n:label class="col-form-label w-100">Fec. Toma Muestra: </n:label>
+										<datebox id="prueba_fec_muestra" class="entrada-datos valor" format="dd/MM/yyyy" constraint="no future" width="40%" />
+									</n:div>
+									<n:div class="form-group col-md-4 col-12">
+										<n:label class="col-form-label w-100">Fec. Recepcion Lab: </n:label>
+										<datebox id="prueba_fec_recepcion_lab" class="entrada-datos valor" format="dd/MM/yyyy" disabled="true"/>
+									</n:div>
+									<n:div class="form-group col-md-4 col-12">
+										<n:label class="col-form-label w-100">Fec. Resultado: </n:label>
+										<datebox id="prueba_fec_resultado" class="entrada-datos valor" format="dd/MM/yyyy" />
+									</n:div>
+								</n:div>
+								<separator spacing="8px" />	
+								<n:div class="row">	
+									<n:div class="form-group col-md-4 col-12">
+										<n:label class="col-form-label w-100">Resultado: </n:label>
+										<textbox id="prueba_valor_resultado" class="entrada-datos" disabled="true" width="70%"/>
+									</n:div>
+									<div id="divAnalitos" class="form-group col-md-8" style="display:inline-flex">
+										<n:label class="col-form-label w-100">Analitos:</n:label>
+										<space></space>
+										<listbox id="lbAnalitos_prueba" mold="paging" width="73%" sizedByContent="true" emptyMessage="Ningún analito para mostrar" class="itemAnalito">
+											<listitem self="@{each=analito}" value="@{analito.CODIGO}" >
+												<listcell>
+													<label value="@{analito.CODIGO}" />
+												</listcell>
+											</listitem>
+										</listbox>
+									</div>		
+								</n:div>
+                                <div id="divCentroExtraccion">
+                                    <n:div  class="row">
+                                        <n:div class="form-group col-md-8 col-8">
+                                            <n:label class="col-form-label w-100">Centro de Extracción: </n:label>
+                                            <textbox id="prueba_centro_extraccion" class="entrada-datos" disabled="true" width="26%"/>
+                                        </n:div>
+                                    </n:div>
+                                </div>
+                            </div>
+							<separator spacing="4px" />
+							<div id="divDatosPaciente" class="row">
+								<groupbox>
+									<caption label="Datos de la Paciente"/>
+									<separator spacing="5px" />  
+									<div class="row">
+										<n:div class="form-group col-md-6" >
+											<n:label class="col-form-label">F.M.:</n:label>
+											<listbox id="prueba_fm" style="display: inline;" mold="select" width="150px" class="form-control entrada-datos valor">
+												<listitem label="Seleccione..."></listitem>
+												<listitem label="Regular" value="1" ></listitem>
+												<listitem label="Irregular" value="0"></listitem>
+											</listbox>
+										</n:div>
+										<n:div class="form-group col-md-6" >
+											<n:label class="col-form-label" style="display: inline;">F.U.R.:</n:label>
+											<datebox id="prueba_fec_ult_regla" class="entrada-datos" format="dd/MM/yyyy" />
+										</n:div>
+									</div>
+									<div class="row">
+										<div class="form-group col-md-6" >
+											<checkbox id="prueba_embarazo" style="display: inline;" label="Embarazos "  />
+											<space></space>
+											<n:label class="col-form-label w-100 z-icon-arrow-right"> </n:label>
+											<space></space>
+											<n:label class="col-form-label"> Cuántos:</n:label>
+											<intbox id="prueba_embarazo_num" class="entrada-datos" disabled="true" width="15%"/>
+										</div>
+										<n:div class="form-group col-md-6" >
+											<n:label class="campoObligatorio">*</n:label>
+											<n:label class="col-form-label" style="display: inline;">Menopausia: </n:label>
+											<listbox id="prueba_menopausia" style="display: inline;" mold="select" width="150px" class="form-control entrada-datos valor">
+											<listitem label="Seleccione..."></listitem>
+											<listitem label="Si" value="1"></listitem>
+											<listitem label="No" value="0"></listitem>
+											<listitem label="Desconocido" value="2"></listitem>
+										</listbox> 
+											<space></space>
+											<n:label class="col-form-label w-100 z-icon-arrow-right"> </n:label>
+											<space></space>
+											<n:label class="col-form-label"> Edad Inicio:</n:label>
+											<intbox id="prueba_menop_edad_ini" class="entrada-datos" disabled="true" width="15%"/>
+										</n:div>
+									</div>
+									<separator spacing="5px" />   
+									<div class="row">
+										<n:div class="form-group col-md-6" >
+											<checkbox id="prueba_antecedentes_patologicos" style="display: inline;" label=" Antecedentes patológicos"/>
+											<div id="divAntecedentes" class="row" visible="false">
+												<div class="form-group col-md-12 col-12">
+													<textbox id="prueba_antec_patol" placeholder="Antecedentes" class="entrada-datos" rows="2" width="90%" disabled="true" />
+												</div>
+											</div>
+										</n:div>
+										<n:div class="form-group col-md-6" >
+											<checkbox id="prueba_cirugia_gine_previa" style="display: inline;" label="Cirugías ginecológicas previas"/>
+											<div id="divCirugGinPrev" class="row" visible="false">
+												<div class="form-group col-md-12 col-12">
+													<textbox id="prueba_cirugias_gine_prev" placeholder="Tipo" class="entrada-datos " rows="2" width="90%" disabled="true" />
+												</div>
+											</div>
+										</n:div>
+									</div>
+									<separator spacing="5px"/>   
+									<div class="row">
+										<n:div class="form-group col-md-12" >
+											<checkbox id="prueba_ter_hormonal" style="display: inline;" label="Terapia hormonal actual"/>
+											<div id="divTerapiaHorm" class="row" visible="false">
+												<div class="form-group col-md-6 col-6">
+													<textbox id="prueba_ter_horm_tipo" placeholder="Tipo" class="entrada-datos" rows="1" width="90%" disabled="true" />
+												</div>
+												<div class="form-group col-md-6 col-6">
+													<n:label class="col-form-label w-100">Duración (meses)</n:label>
+													<intbox id="prueba_ter_horm_duracion" class="entrada-datos" disabled="true"/>
+												</div>
+											</div>
+										</n:div>
+									</div>
+									<separator spacing="5px" />  
+									<div class="row">
+										<div class="form-group col-md-6">
+											<n:label class="campoObligatorio">*</n:label>
+											<n:label class="col-form-label" style="display: contents;">Cribado adecuado en los últimos 10 años</n:label>
+											<listbox id="prueba_crib_adec_10" style="display: inline;" mold="select" width="120px" class="form-control entrada-datos valor">
+												<listitem label="Seleccione..." ></listitem>
+												<listitem label="Si" value="1"></listitem>
+												<listitem label="No" value="0"></listitem>
+												<listitem label="Desconocido" value="2"></listitem>
+											</listbox>
+											<div id="divResultNeg" visible="false">
+												<n:label class="col-form-label" style="display: contents;">¿Los resultados fueron negativos?</n:label>
+												<listbox id="prueba_crib_adec_10_negat" style="display: inline;" mold="select" width="120px" class="form-control entrada-datos valor">
+													<listitem label="Seleccione..." ></listitem>
+													<listitem label="Si" value="1"></listitem>
+													<listitem label="No" value="0"></listitem>
+												</listbox>
+											</div>
+										</div>
+										<n:div class="form-group col-md-6" >
+											<n:label class="campoObligatorio">*</n:label>
+											<n:label class="col-form-label" style="display: contents;">Patología Cervical Previa</n:label>
+											<listbox id="prueba_pat_cerv_prev" style="display: inline;" mold="select" width="120px" class="form-control entrada-datos valor">
+												<listitem label="Seleccione..." ></listitem>
+												<listitem label="Si" value="1"></listitem>
+												<listitem label="No" value="0"></listitem>
+												<listitem label="Desconocido" value="2"></listitem>
+											</listbox>
+											<div id="divLesionCervical" visible="false">
+												<n:label class="col-form-label" style="display: contents;">¿Ha tenido alguna lesión cervical causada por el VPH?</n:label>
+												<listbox id="prueba_pat_cerv_prev_vph" style="display: inline;" mold="select" width="120px" class="form-control entrada-datos valor">
+													<listitem label="Seleccione..." ></listitem>
+													<listitem label="Si" value="1"></listitem>
+													<listitem label="No" value="0"></listitem>
+													<listitem label="Desconocido" value="2"></listitem>
+												</listbox>
+												<div id="divLesionTiempo" visible="false">
+													<n:label class="col-form-label" style="display: contents;">¿Fue hace menos de 20 años?</n:label>
+													<listbox id="prueba_pat_cerv_prev_20" style="display: inline;" mold="select" width="120px" class="form-control entrada-datos valor">
+														<listitem label="Seleccione..."></listitem>
+														<listitem label="Si" value="1"></listitem>
+														<listitem label="No" value="0"></listitem>
+														<listitem label="Desconocido" value="2"></listitem>
+													</listbox>
+												</div>
+												<div id="divTipoLesion" visible="false">
+													<n:label class="col-form-label" style="display: contents;">¿Recuerda si fue CIN II o más?(CIN III, Ca escamoso infiltrante, AIS o ADC)</n:label>
+													<listbox id="prueba_pat_cerv_prev_tipocin" style="display: inline;" mold="select" width="120px" class="form-control entrada-datos valor">
+														<listitem label="Seleccione..."></listitem>
+														<listitem label="Si" value="1"></listitem>
+														<listitem label="No" value="0"></listitem>
+														<listitem label="Desconocido" value="2"></listitem>
+													</listbox>
+												</div>
+											</div>
+										</n:div>
+									</div>
+									<separator spacing="5px" />
+									<div class="row">
+										<n:div class="form-group col-md-12" >
+											<n:label class="campoObligatorio">*</n:label>
+											<n:label class="col-form-label" style="display: contents;">Vacunación VPH</n:label>
+											<listbox id="prueba_vacunacion_vph" style="display: inline;" mold="select" width="120px" class="form-control entrada-datos valor">
+												<listitem label="Seleccione..." ></listitem>
+												<listitem label="Si" value="1"></listitem>
+												<listitem label="No" value="0"></listitem>
+												<listitem label="Desconocido" value="2"></listitem>
+											</listbox>
+											<div id="divTipoVacuna" visible="false">
+												<n:label class="col-form-label w-100">Tipo de vacuna</n:label>
+												<listbox id="prueba_id_tipo_vacuna"  mold="select" width="30%" style="display: inline;" class="form-control entrada-datos valor">
+													<listitem self="@{each.tipVac}" value="@{tipVac.ID}">
+														<listcell visible="false">
+															<label value="@{tipVac.ID}"/>
+														</listcell>
+														<listcell>
+															<label value="@{tipVac.DESCRIPCION}"/>
+														</listcell>
+													</listitem>
+												</listbox>
+												<div id="divDosisRecibidas">
+													<n:label class="col-form-label" style="display: contents;">Dosis recibidas</n:label>
+													<listbox id="prueba_dosis_recibidas" style="display: inline;" mold="select" width="120px" class="form-control entrada-datos valor">
+														<listitem label="Seleccione..."></listitem>
+														<listitem label="1" value= "1"></listitem>
+														<listitem label="2" value="2"></listitem>
+														<listitem label="3" value="3"></listitem>
+														<listitem label="No recuerda"></listitem>
+													</listbox>
+												</div>
+												<div class="row" style="display: inline" id="divDatosDosis">
+													<n:div class="col-md-3" style="display: contents" >
+														<n:label class="col-form-label">Edad primera dosis</n:label>
+														<intbox id="prueba_edad_prim_dosis" class="entrada-datos" style="display: inline" disabled="true" width="3%"/>
+													</n:div>
+													<n:div class="col-md-4" style="display: contents">
+														<n:label class="col-form-label">Fecha última dosis</n:label>
+														<datebox id="prueba_fec_ult_dosis" class="entrada-datos" format="dd/MM/yyyy"/>
+													</n:div>
+												</div>
+											</div>
+										</n:div>
+									</div>
+									<separator spacing="5px" />
+									<div class="row">
+										<n:div class="form-group col-md-3" >
+											<checkbox id="prueba_anovul_orales" style="display: inline;" label="Anovulatorios orales"/>
+										</n:div>
+										<n:div class="form-group col-md-3" >
+											<checkbox id="prueba_quimioterapia" style="display: inline;" label="Quimioterapia"/>
+										</n:div>
+										<n:div class="form-group col-md-3" >
+											<checkbox id="prueba_radioterapia" style="display: inline;" label="Radioterapia"/>
+										</n:div>
+									</div>
+									<separator spacing="5px" />  
+									<div class="row">
+										<n:div class="form-group col-md-3" >
+											<checkbox id="prueba_gestante" style="display: inline;" label="Gestante"/>
+										</n:div>
+										<n:div class="form-group col-md-3" >
+											<checkbox id="prueba_puerperio" style="display: inline;" label="Puerperio"/>
+										</n:div>
+										<n:div class="form-group col-md-3" >
+											<checkbox id="prueba_diu" style="display: inline;" label="D.I.U."/>
+										</n:div>
+									</div>
+									<separator spacing="5px" />
+									<div class="row">
+										<n:div class="form-group col-md-6" >
+											<n:label class="col-form-label">Otros tratamientos:</n:label>
+											<textbox id="prueba_otros_tratam" class="entrada-datos " rows="2" width="69%" disabled="true" />
+										</n:div>
+										<n:div class="form-group col-md-6" >
+											<n:label class="col-form-label">Observaciones:</n:label>
+											<textbox id="prueba_observaciones" class="entrada-datos " rows="2" width="75%" disabled="true" />
+										</n:div>
+									</div>
+								</groupbox>
+							</div>
+							<separator spacing="8px" />
+							<div id="divDatosGinec" class="row">
+								<groupbox>
+									<caption label="Exploración"/>
+										<div class="row">
+											<div class="col-md-12 col-12">
+												<checkbox id="prueba_hallazgos_gine" style="display: inline;" label="¿Hallazgos Ginecológicos?"/>
+												<div id="divHallazGinecoDetalles" visible = "false">
+													<groupbox>
+													<caption label="Hallazgos"/>
+															<div class="row">
+																<n:div class="form-group col-md-4" >
+																	<checkbox id="prueba_hall_gine_vulvitis" style="display: inline;" label="Vulvitis"/>
+																</n:div>
+																<n:div class="form-group col-md-4" >
+																	<checkbox id="prueba_hall_gine_hipo_atro" style="display: inline;" label="Hipotrofia/Atrofia"/>
+																</n:div>
+																<n:div class="form-group col-md-4" >
+																	<checkbox id="prueba_hall_gine_dolor" style="display: inline;" label="Dolor"/>
+																</n:div>
+															</div>
+															<div class="row">
+																<n:div class="form-group col-md-4" >
+																	<checkbox id="prueba_hall_gine_eritroplasia" style="display: inline;" label="Eritroplasia"/>
+																</n:div>
+																<n:div class="form-group col-md-4" >
+																	<checkbox id="prueba_hall_gine_leucorrea" style="display: inline;" label="Leucorrea"/>
+																</n:div>
+																<n:div class="form-group col-md-4" >
+																	<checkbox id="prueba_hall_gine_colpitis" style="display: inline;" label="Colpitis"/>
+																</n:div>
+															</div>
+															<div class="row">
+																<n:div class="form-group col-md-6" >
+																	<checkbox id="prueba_otros" style="display: inline;" label="Otros:"/>
+																	<textbox id="prueba_hall_gine_otros" class="entrada-datos" rows="2" width="75%" disabled="true" />
+																</n:div>
+															</div>
+													</groupbox>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-12 col-12">
+												<checkbox id="prueba_colposcopia" style="display: inline;" label="¿Hallazgos Colposcópicos?"/>
+												<div id="divHallazColposDetalles" class="row" visible="false">
+													<div class="form-group col-md-6">
+														<textbox id="prueba_hallazgos_colpos" placeholder="Hallazgos" class="entrada-datos" rows="3" width="90%" />
+													</div>
+												</div>
+											</div>
+										</div>
+								</groupbox>
+							</div>
+                            <div id="divDatosCribIni" class="row" visible="false">
+                                <groupbox>
+                                    <caption label="Historial Cribado Inicial"/>
+                                    <div class="row">
+                                        <n:div class="form-group col-md-3 col-12">
+                                            <n:label class="col-form-label w-100">Resultado VPH:</n:label>
+<!--                                            <textbox id="prueba_resultadoVph" class="entrada-datos valor" type="text" width="inherit" disabled="true"/>-->
+                                            <textbox id="prueba_resultadoVph" class="entrada-datos" disabled="true" width="33%"/>
+                                        </n:div>
+                                        <n:div class="form-group col-md-3 col-12">
+                                            <n:label class="col-form-label w-100">Fec.muestra:</n:label>
+                                            <textbox id="prueba_fMuestraVph" class="entrada-datos" disabled="true" width="33%"/>
+                                        </n:div>
+                                        <n:div class="form-group col-md-3 col-12">
+                                            <n:label class="col-form-label w-100">Fec.resultado:</n:label>
+                                            <textbox id="prueba_fResultadoVph" class="entrada-datos" disabled="true" width="33%"/>
+                                        </n:div>
+                                        <n:div class="form-group col-md-3 col-12">
+                                            <n:label class="col-form-label w-100">Genotipos:</n:label>
+                                            <textbox id="prueba_genotiposVph" class="entrada-datos" disabled="true" width="60%"/>
+                                        </n:div>
+                                    </div>
+                                    <div class="row">
+                                        <n:div class="form-group col-md-3 col-12">
+                                            <n:label class="col-form-label w-100">Resultado Citología:</n:label>
+                                            <textbox id="prueba_resultadoCito" class="entrada-datos" disabled="true" width="33%"/>
+                                        </n:div>
+                                        <n:div class="form-group col-md-3 col-12">
+                                            <n:label class="col-form-label w-100">Fec.muestra:</n:label>
+                                            <textbox id="prueba_fMuestraCito" class="entrada-datos" disabled="true" width="33%"/>
+                                        </n:div>
+                                        <n:div class="form-group col-md-3 col-12">
+                                            <n:label class="col-form-label w-100">Fec.resultado:</n:label>
+                                            <textbox id="prueba_fResultadoCito" class="entrada-datos" disabled="true" width="33%"/>
+                                        </n:div>
+                                        <n:div class="form-group col-md-3 col-12">
+                                            <n:label class="col-form-label w-100">Genotipos:</n:label>
+                                            <textbox id="prueba_genotiposCito" class="entrada-datos" disabled="true" width="60%"/>
+                                        </n:div>
+                                    </div>
+                                </groupbox>
+                            </div>
+                            <div id="divReenvioPetElecAr" class="row" visible="false" width="40%" style="margin-left:auto; margin-right:5%">
+                                <groupbox>
+                                    <caption label="Reenvio de petición electrónica"/>
+                                    <div class="row">
+                                        <n:div class="form-group col-md-7 col-12">
+                                            <n:label class="col-form-label w-100">Días desde anterior envío: </n:label>
+                                            <textbox id="prueba_fReenvio" class="entrada-datos" disabled="true" width="20%"/>
+                                        </n:div>
+                                        <n:div class="form-group col-md-5 col-12">
+                                            <n:div class="col-form-label w-100">
+                                                <button id="btnReenvioPetElecAr" label="REENVIO PET.ELEC"
+                                                        onClick="$composer.clicReenvioPetElecAr()"
+                                                        zclass="btn" class="btn btn-primary btn-xs pull-left" disabled="false"/>
+                                            </n:div>
+                                        </n:div>
+                                    </div>
+                                </groupbox>
+                            </div>
+							<textbox id="prueba_baseChecksum" visible="false"/>
+						</n:div>
+						<separator spacing="30px" />
+						<button id="btnGuardarPruebaEst" label="Guardar" autodisable="self" iconSclass="z-icon-save" class="btn guardar btn-error btn-big" />
+                        <button id="btnGuardarPruebaEstCostest" label="Guardar" autodisable="self" iconSclass="z-icon-save" class="btn guardar btn-error btn-big" />
+						<button id="btnDescartarPruebaEst" label="Cancelar" iconSclass="z-icon-times" class="descartar btn btn-big"/>
+						<!--  <button id="btnEnviarPeticion" label="Enviar Petición" autodisable="self"  zclass="btn" iconSclass="z-icon-share" class="btn-warning btn-big pull-right" />  -->
+					</n:div>		
+				</div>
+			</div>
+		</div>				
+
+	</window>
+</zk>

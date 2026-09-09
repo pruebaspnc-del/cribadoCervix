@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<?page zscriptLanguage="Groovy" style="height:100%"?>
+<?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul" xmlns:h="http://www.w3.org/1999/xhtml" xmlns:n="http://www.zkoss.org/2005/zk/native" xmlns:w="http://www.zkoss.org/2005/zk/client" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.zkoss.org/2005/zul/zul.xsd">
+	<vlayout id="vlConsultarInvitaciones" apply="es.carm.pcacervix.comunicaciones.ConsultarInvitacionesComposer" visible="false">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="panel panel-primary">
+					<n:div class="panel-heading">Registro de Emisión de Invitaciones</n:div>
+					<div class="panel-body">
+						<n:div class="container-fluid">
+							<n:div class="row">
+								<n:div class="col-md-2">
+									<n:label class="col-form-label w-100">Fecha Desde:</n:label>
+								</n:div>
+								<n:div class="col-md-4">
+									<datebox id="dbFecDesdeInv" class="entrada-datos valor" width="110px" format="dd/MM/yyyy" constraint="no future"/>
+								</n:div>
+								<n:div class="col-md-2">
+									<n:label class="col-form-label w-100">Fecha Hasta:</n:label>
+								</n:div>
+								<n:div class="col-md-4">
+									<datebox id="dbFecHastaInv" class="entrada-datos valor" width="110px" format="dd/MM/yyyy"/>
+								</n:div>
+							</n:div>
+							<separator spacing="8px" />
+							<n:div class="row">
+									<n:div class="col-md-2">
+										<n:label class="col-form-label w-100">Área de Salud:</n:label>
+									</n:div>
+									<n:div class="col-md-4">
+										<listbox id="lbAreaSaludInv" mold="select" class="form-control entrada-datos valor"/>
+										
+									</n:div>
+									<n:div class="col-md-2">
+										<n:label class="col-form-label w-100">Zona Básica de Salud:</n:label>
+									</n:div>
+									<n:div class="col-md-4">
+										<listbox id="lbZonaSaludInv" mold="select" class="form-control entrada-datos valor"/>
+									</n:div>
+								</n:div>
+							<n:div class="row">
+								<n:div class="col-md-4">
+									<checkbox id="cbBuscarReinvitaciones" label="Buscar sólo reinvitaciones"/>
+								</n:div>
+							</n:div>
+
+							<separator spacing="25px" />
+							<div class="row" style="display:flex;justify-content: space-between;">
+								<div class="col-md-3" align="left">
+									<button id="btnBuscarEmisiones" autodisable="self" label=" BUSCAR" iconSclass="z-icon-search" zclass="btn" class="btn btn-primary btn-xs pull-left" />
+								</div>
+								<div class="col-md-6" align="center">
+									<button id="btnCrearEmision" autodisable="self" label="Nueva" iconSclass="z-icon-plus" zclass="btn" style="margin-left: 3px;" class="btn btn-info btn-xs pull" />
+									<button id="btnEstimacionInv" autodisable="self" label="Estimación" zclass="btn" class="btn btn-primary btn-xs" style="margin-left: 3px;" disabled="true"/>
+									<button id="btnGenerarInv" autodisable="self" label="Generar Cartas" zclass="btn" class="btn btn-primary btn-xs" disabled="true"/>
+									<button id="btnDescargarInv" autodisable="self" label="Descargar Cartas" iconSclass="z-icon-download"  zclass="btn" class="btn btn-primary btn-xs" disabled="true"/>
+								</div>
+								<div class="col-md-3" align="right">
+									<button id="btnBorrarFiltrosInv" autodisable="self" label=" LIMPIAR FILTROS" iconSclass="z-icon-trash" zclass="btn" class="btn btn-warning btn-xs pull-right limpiarFiltro" />
+								</div>
+							</div>	
+						</n:div>
+						<separator spacing="15px" />
+						<n:div class="container-fluid">
+							<separator spacing="8px" />
+							<groupbox title="Parámetros opcionales de la plantilla">
+								<n:div class="row">
+									<n:div class="col-md-4">
+										<checkbox id="cbFechaLimite" label="Fechas disponibilidad buzones"/>
+									</n:div>
+								</n:div>
+							</groupbox>
+							<separator spacing="5px" />
+							 <listbox id="lbListaInvitaciones" sizedByContent="true" mold="paging" pageSize="10" height="null" span="true" emptyMessage="Ningún registro para mostrar">
+						         <listhead sizable="true">
+						          	<listheader label="ID" sort="auto(id)"/>
+						          	<listheader label="Fec. Creación" sort="auto(fecha)"/>
+						        	<listheader label="Area Salud" sort="auto(area_salud)"/>
+						            <listheader label="Zona B. Salud" sort="auto(zona_salud)"/>
+						            <listheader label="Descripción" sort="auto(descripcion)"/>
+						            <listheader label="Doc Generados" sort="auto(num_doc_generados)"/>
+                                     <listheader label="Fec. Generación" sort="auto(fecha_generacion)"/>
+						            <listheader label="Sólo reinvitaciones" sort="auto(reinvitacion)"/>
+						          </listhead>
+								 <listitem self="@{each=registro}" value="@{registro.id}">
+								 	<listcell><label value="@{registro.id}" /></listcell>
+								 	<listcell><label value="@{registro.fecha, converter='org.zkoss.zkplus.databind.DateFormatConverter'}" self="@{format(dd/MM/yyyy)}"/></listcell>
+								 	<listcell><label value="@{registro.area_salud}" /></listcell>
+								 	<listcell><label value="@{registro.zona_salud}" /></listcell>
+								 	<listcell><label value="@{registro.descripcion}" /></listcell>
+								 	<listcell><label value="@{registro.num_doc_generados}" /></listcell>
+								 	<listcell><label value="@{registro.fecha_generacion, converter='org.zkoss.zkplus.databind.DateFormatConverter'}" self="@{format(dd/MM/yyyy)}"/></listcell>
+								 	<listcell><button id="reinvitacion" class="btn btn-sm btn-link" style="color: #408c6b"
+													  iconSclass="z-icon-check"
+													  visible="@{registro.reinvitacion}"/></listcell>
+								  </listitem>
+							 </listbox>
+						</n:div>
+						<!-- VENTANA EMERGENTE -->
+						<window id="wndCrearEmision" visible="false" apply="es.carm.pcacervix.comunicaciones.GeneracionInvitacionesComposer" closable="true" class="ventana-modal" position="center" width="60%">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="panel panel-primary">
+										<n:div class="panel-heading">
+											<n:div class="row">
+												<n:div class="col-md-7 col-12">
+													<label class="panel-title" id="tituloVentanaInv" style="font-weight:bold; font-size:12pt"></label>
+												</n:div>
+												<n:div class="col-md-4 col-12"></n:div>
+												<n:div class="col-md-1 col-12">
+													<button id="btnCerrarVentana" iconSclass="z-icon-times" autodisable="true" class="btn btn-xs pull-right" /> 
+												</n:div>
+											</n:div>
+										</n:div>										
+										<div class="panel-body">
+											<n:div class="container-fluid">
+												<n:div class="row">
+													<n:div class="col-md-2">
+														<n:label class="col-form-label w-100">ID:</n:label>
+													</n:div>
+													<n:div class="col-md-4">
+														<textbox id="emisionInvitacion_id" width="20%" class="form-control input-sm" disabled="true"/>
+													</n:div>
+													<n:div class="col-md-2">
+														<n:label class="col-form-label w-100">Fecha:</n:label>
+													</n:div>
+													<n:div class="col-md-4">
+														<textbox id="emisionInvitacion_fecha" class="form-control input-sm" width="35%"  disabled="true" />
+													</n:div>
+												</n:div>
+												<separator spacing="10px" />
+												<n:div class="row">
+													<n:div class="col-md-2">
+														<n:label class="col-form-label w-100">Profesional:</n:label>
+													</n:div>
+													<n:div class="col-md-4">
+														<textbox id="emisionInvitacion_id_profesional" class="form-control input-sm" disabled="true" />
+													</n:div>
+													<n:div class="col-md-2">
+														<n:label class="col-form-label w-100">Unidad Funcional:</n:label>
+													</n:div>
+													<n:div class="col-md-4">
+														<textbox id="emisionInvitacion_unidad_funcional" class="form-control input-sm" disabled="true" />
+													</n:div>
+												</n:div>
+												<separator spacing="10px" />
+												<n:div class="row">
+													<n:div class="col-md-2">
+														<n:label class="col-form-label w-100">Área de Salud: </n:label>
+													</n:div>
+													<n:div class="col-md-4">
+														<listbox id="emisionInvitacion_area_salud" mold="select" class="form-control entrada-datos valor"/>										
+													</n:div>
+													<n:div class="col-md-2">
+														<n:label class="col-form-label w-100">Zona Básica de Salud:</n:label>
+													</n:div>
+													<n:div class="col-md-4">
+														<listbox id="emisionInvitacion_zona_salud" mold="select" class="form-control entrada-datos valor"/>
+													</n:div>
+												</n:div>
+												<separator spacing="10px" />
+												<n:div class="row">
+													<n:div class="col-md-2">
+														<n:label class="col-form-label w-100">Año Nacimiento: </n:label>
+													</n:div>
+													<n:div class="col-md-4">
+														<intbox id="emisionInvitacion_anyo_nacimiento" class="form-control input-sm" width="30%" maxlength="4"/>
+													</n:div>
+													<!--<n:div class="col-md-2">
+														<n:label class="col-form-label w-100">Edad: </n:label>
+													</n:div>
+													<n:div class="col-md-4">
+														<intbox id="emisionInvitacion_edad" width="30%" class="form-control input-sm" maxlength="3" />
+													</n:div>-->
+													<n:div class="col-md-2">
+														<n:label class="col-form-label w-100">Descripción: </n:label>
+													</n:div>
+													<n:div class="col-md-4">
+														<textbox id="emisionInvitacion_descripcion"  class="form-control input-sm" multiline="true" rows="10" maxlength="200"/>
+													</n:div>
+												</n:div>
+												<separator spacing="10px" />
+												<n:div class="row">
+													<n:div class="col-md-2">
+														<n:label class="col-form-label w-100">Edad Desde: </n:label>
+													</n:div>
+													<n:div class="col-md-4">
+														<intbox id="emisionInvitacion_edad_desde" width="30%" class="form-control input-sm" />
+													</n:div>
+													<n:div class="col-md-2">
+														<n:label class="col-form-label w-100">Edad Hasta: </n:label>
+													</n:div>
+													<n:div class="col-md-4">
+														<intbox id="emisionInvitacion_edad_hasta" width="30%" class="form-control input-sm"/>
+													</n:div>
+												</n:div>
+<!--												<n:div>-->
+													<groupbox title="Parámetros reinvitaciones">
+														<n:div class="row">
+															<n:div class="col-md-5">
+																<checkbox id="emisionInvitacion_reinvitacion" label="Generar sólo reinvitaciones" onCheck="emisionInvitacion_fecha_cart_anterior_a.disabled=false"/>
+															</n:div>
+															<n:div class="col-md-4">
+																<n:label class="col-form-label w-100">Última invitación antes de:</n:label>
+															</n:div>
+															<n:div class="col-md-3">
+																<datebox id="emisionInvitacion_fecha_cart_anterior_a" class="entrada-datos valor" width="110px" format="dd/MM/yyyy" constraint="no future" disabled="true"/>
+															</n:div>
+														</n:div>
+													</groupbox>
+<!--												</n:div>-->
+												<textbox id="emisionInvitacion_baseChecksum" visible="false"/>												
+												<separator spacing="15px" />
+												<button id="btnGuardarInv" autodisable="self" label="Guardar" iconSclass="z-icon-save" zclass="btn" class="btn btn-primary btn-big pull-left" />							
+												<button id="btnDescartarInv" label="Cancelar" iconSclass="z-icon-times" class="descartar tn btn-big" style="margin-left: 10px"/>
+											</n:div>
+										</div>
+									</div>
+								</div>
+							</div>				
+						</window> 
+						<!-- VENTANA EMERGENTE GENERACION DOCUMENTOS -->
+						<window id="wndGenDocs" visible="false" closable="true" class="ventana-modal" position="center" width="30%">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="panel panel-primary">
+										<div class="panel-heading">
+											<n:div class="row">
+												<n:div class="col-md-7 ">
+													<label class="panel-title" style="font-weight:bold; font-size:12pt"> Generación de Documentos </label>
+												</n:div>
+												<n:div class="col-md-4 "></n:div>
+												<n:div class="col-md-1">
+													<button id="btnCerrarVentana" onClick="wndGenDocs.visible=false" iconSclass="z-icon-times"  autodisable="true" class="btn btn-xs pull-right" /> 
+												</n:div>
+											</n:div>
+										</div>
+										<n:div class="panel-body mb-3">
+											<n:div class="container-fluid">	
+												<n:div class="row">
+													<n:div class="col-md-6">
+														<n:label class="col-form-label w-100">Número de documentos a generar:</n:label>
+													</n:div>
+													<n:div class="col-md-6">
+														<intbox id="inv_num_doc" width="30%" class="form-control input-sm" maxlength="5" />
+													</n:div>
+													<n:div class="col-md-12">
+														<button id="btnGenerarDocs" onClick="$composer.clickGenerarDocs()" autodisable="self" label="Generar" iconSclass="z-icon-save" zclass="btn" class="btn btn-primary btn-sm pull-left" />		
+													</n:div>
+												</n:div>
+											</n:div>
+										</n:div>														
+									</div>
+								</div>
+							</div>				
+						</window>
+					</div>
+				</div>
+			</div>
+		</div>			
+	</vlayout>
+</zk>

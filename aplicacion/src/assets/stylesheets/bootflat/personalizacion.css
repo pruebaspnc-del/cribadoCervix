@@ -1,0 +1,513 @@
+/*
+* This is a manifest file that'll be compiled into application.css, which will include all the files
+* listed below.
+*
+* Any CSS file within this directory can be referenced here using a relative path.
+*
+* You're free to add application-wide styles to this file and they'll appear at the top of the
+* compiled file, but it's generally better to create a new file per style scope.
+*
+*= require_self
+*/
+
+/* css específico de la aplicación */
+
+/* Centrar Logo CERVIX */
+.titulo-logo-cervix {
+	font-size: 24px;
+	color: #444444;
+	font-family: 'Lato', serif;
+}
+
+/* Color en letras de Menu */
+.menu-base:hover a {
+  color: #505050;
+  font-size: 14px;
+}
+.dropdown-menu{ /*Color background de submenus */
+	background-color: white;	 
+}
+.dropdown-menu li a{ /*Color Letras de Submenus */
+  color:black;
+}
+.dropdown-menu  li a:active, .dropdown-menu  li a:hover{ /* Color background de submenus */
+  background-color: lightgray;
+  color:black;
+}
+.open > .dropdown-menu li { /* Formato de Submenus*/
+	display: contents;
+}
+
+/* linea bajo los logos */
+.header{
+	box-shadow:lightgray;
+	border-bottom: 3px solid #EEE;
+	top: 0;
+	position: sticky;
+}
+/* Menu Horizontal */
+.barra-menu{
+	background-color: white;
+	box-shadow: lightgray;
+}
+
+/* Cabeceras de pantallas (.panel-primary > .panel-heading para la cabecera de Buscador de personas en PERSAN) */
+.z-div > .panel-primary > .panel-heading, .panel-heading, .panel-primary > .panel-heading {
+  color: white;
+  background-color: #65b892;
+  border-color: #65b892;
+  font-weight: inherit;
+  font-size: initial;
+}
+
+.btn-primary,  .btn-primary:focus, .btn-primary:active:focus, .btn-primary:active, .btn-primary.disabled, .btn-primary[disabled], .btn-primary.disabled:hover, .btn-primary[disabled]:hover {
+  color: white;
+  background-color: #408c6b;
+  border-color: #408c6b;
+}
+
+.btn-primary:hover, .btn-primary:active:hover{
+	color: white;
+  background-color: #81c5a7;
+  border-color: #81c5a7;
+}
+
+
+/* Pantalla Buscador Expedientes, boton Borrar Filtro */
+.limpiarFiltro, .limpiarFiltro:focus, .limpiarFiltro:active:focus, .limpiarFiltro:active, .limpiarFiltro.disabled, .limpiarFiltro[disabled], .limpiarFiltro.disabled:hover, .limpiarFiltro[disabled]:hover{
+	background-color: white;
+ 	border-color: #81c5a7;
+  	color: #81c5a7;
+  	font-weight: bold;
+}
+.limpiarFiltro:hover, .limpiarFiltro:active:hover{
+	background-color: white;
+ 	border-color: #408c6b;
+  	color: #408c6b;
+  	font-weight: bold;
+}
+
+
+/* Pantalla Detalle del Expediente -> */
+.z-panel-head, .z-panel-header{
+	background-color: #e3f2eb;
+}
+.z-panel-icon:hover{
+	background-color: #ecf5f1;
+	border-color: #c6e7d6;
+}
+
+
+/* Pantalla Detalle del Expediente -> Menu popup de Procesos y Estudios */
+.z-menuitem-content:hover{
+	color: #408c6b;
+}
+
+
+/* Seleccion de ListItems */ 
+.z-listitem.z-listitem-selected.z-listitem-focus:hover > .z-listcell.z-listcell-focus:hover{
+	background: #d4ede0;
+}
+.z-listitem.z-listitem-selected.z-listitem-focus:hover > .z-listcell{
+	background: #b2d2c9;
+}
+.z-listitem.z-listitem-selected > .z-listcell, .z-listitem.z-listitem-selected.z-listitem-focus > .z-listcell {
+	border-color: #b2d2c9;
+	background: #b2d2c9;
+}
+.z-listitem.z-listitem-selected:hover > .z-listcell{
+	border-color: #c7e5d7;
+	background: #c7e5d7;
+}
+
+/* Alineacion de los checkboxs*/
+input[type="checkbox"] {
+	margin: 0px 3px 2px 0px !important;
+	margin-right: revert;
+	margin-top: -3px;
+}
+.z-checkbox-content {
+	font-family: inherit;
+  	font-size: inherit;
+  	font-weight: bold;
+  	/* margin-inline-end: revert;
+  	margin-right: revert; */
+}
+
+/* Borde de los Panel */
+.panel {
+  border: 1px solid lightgray;
+  }
+  
+/* Campos obligatorios del formulario */
+.campoObligatorio{
+	color:red;
+}
+  
+  
+#hero {
+	height: 100%;
+	padding-bottom: 20px;
+	margin-top: 2px;
+	margin-bottom: 0;
+	/*Es muy importante que el hero no tenga display: flex*/
+}
+
+.log-box {
+	position: absolute;
+	right: 0px;
+}
+
+.header {
+	border-bottom: 3px solid #EEE;
+	top: 0;
+	position: sticky;
+}
+
+/**
+	--------------MENÚ REDISEÑO--------------
+**/
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+.sidebar {
+	position: fixed;
+	z-index: 800;
+	margin-top: 5px;
+	width: 256px;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	background-color: #fff;
+	padding: 24px;
+	border-radius: 20px;
+	transition: all 0.3s;
+	max-height: 87vh;
+	overflow: auto;
+}
+
+.layout-sanidad {
+	margin-right: 10%;
+	margin-left: 10%;
+	max-width: 80%;
+	transition: all 0.3s;
+	z-index: 0;
+}
+
+.layout-sanidad-active {
+	margin-right: 15%;
+	margin-left: 15%;
+	max-width: 70%;
+	transition: all 0.3s;
+	z-index: 0;
+}
+
+.sidebar.active {
+	width: 92px;
+}
+
+.sidebar::-webkit-scrollbar {
+	display: none;
+}
+
+/*Cabecera del menú, específica con información del usuario*/
+.sidebar .head {
+	display: flex;
+	gap: 20px;
+	border-bottom: 1px solid #f6f6f6;
+	padding-bottom: 10px;
+	caret-color: transparent;
+	align-items: center;
+	justify-content: center;
+}
+
+/*Div que tiene imagen del perfil*/
+.user-img-sanidad {
+	width: 44px;
+	height: 44px;
+	border-radius: 50%;
+	overflow: hidden;
+	background-color: #757575;
+}
+
+.user-img-sanidad img {
+	width: 100%;
+	object-fit: cover;
+}
+
+/*Div que tiene el perfil y usuario*/
+.user-details {
+	width: 150px;
+	align-items: center;
+	justify-content: center;
+}
+
+.user-details .title, .menu .title {
+	font-size: 11px;
+	font-weight: 500;
+	color: #757575;
+	text-transform: uppercase;
+	margin-bottom: 6px;
+}
+
+.user-details .name {
+	font-size: 13px;
+	font-weight: 500;
+	margin-bottom: 2px;
+}
+
+/*Div que tiene las opciones, el menú propiamente*/
+.nav {
+	flex: 1;
+	overflow: auto;
+}
+
+.nav::-webkit-scrollbar {
+	display: none;
+}
+
+.menu ul li {
+	position: relative;
+	list-style: none;
+}
+
+.menu ul li a {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	font-size: 14px;
+	font-weight: 600;
+	color: #757575;
+	text-decoration: none;
+	padding: 12px 8px;
+	border-radius: 8px;
+	cursor: pointer;
+	caret-color: transparent;
+	transition: all 0.3s;
+}
+
+.menu ul li>a:hover, .menu ul li.active>a {
+	color: #000;
+	background-color: #f6f6f6;
+}
+
+.log-box-hover:hover {
+	color: #fff !important;
+	background-color: #AE0E36 !important;
+	font-weight: bolder !important;
+}
+
+.menu ul li .icon {
+	font-size: 18px;
+}
+
+.menu ul li .text {
+	flex: 1;
+}
+
+.menu ul li .arrow {
+	font-size: 14px;
+	transform: rotate(90deg);
+	transition: all 0.3s;
+}
+
+.menu ul li.unfolded .arrow {
+	transform: rotate(270deg);
+}
+
+/*Estilo del submenú*/
+	/*Este en concreto hace referencia a los submenús que se visualizan cuando el menú está desplegado*/
+.menu .sub-menu, .menu .sub-menu-large {
+	display: none;
+	margin-left: 20px;
+	padding-left: 20px;
+	padding-top: 5px;
+	border-left: 1px solid #f6f6f6;
+	z-index: -1;
+}
+
+.menu .sub-menu li a, .menu .sub-menu-large li a {
+	padding: 6px 4px;
+	font-size: 12px;
+}
+
+/*Botón "<" para plegar y desplegar el menú*/
+.sidebar.active .menu-btn i {
+	transform: rotate(180deg);
+}
+
+.sidebar.active .menu-btn {
+	position: fixed !important;
+	right: -14px;
+	top: 105px !important;
+	left: 80px !important;
+	width: 28px;
+	height: 28px;
+	border-radius: 8px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	color: #757575;
+	border: 2px solid #f6f6f6;
+	background-color: #fff;
+}
+
+.menu-btn {
+	position: fixed !important;
+	right: -14px;
+	top: 105px !important;
+	left: 245px !important;
+	width: 28px;
+	height: 28px;
+	border-radius: 8px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	color: #757575;
+	border: 2px solid #f6f6f6;
+	background-color: #fff;
+	transition: all 0.3s;
+}
+
+.menu-btn:hover i {
+	color: #000;
+}
+
+.menu-btn i {
+	transition: all 0.3s;
+	caret-color: transparent;
+}
+
+/*Detalles para corregir el aspecto del menú cada vez que se pliega*/
+/*Menú plegado*/
+.sidebar.active .nav {
+	overflow: visible;
+}
+
+.sidebar.active .user-details {
+	display: none;
+}
+
+.sidebar.active .menu .title {
+	display: flex;
+	justify-content: center;
+}
+
+.sidebar.active .menu ul li .arrow {
+	display: none;
+}
+
+.sidebar.active .menu>ul>li>a {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/*Recuadro negro del tooltip*/
+.sidebar.active .menu>ul>li>a .text {
+	position: fixed;
+	left: 70px;
+	top: 50%;
+	transform: translateY(-50%);
+	padding: 10px;
+	border-radius: 4px;
+	color: #fff;
+	background-color: #000;
+	opacity: 0;
+	visibility: hidden;
+	transition: all 0.3s;
+	display: none;
+	z-index: 300;
+}
+
+/*Flecha negra que acompaña al tooltip para señalar el item*/
+.sidebar.active .menu > ul > li > a .text::after {
+    content: "";
+    position: absolute;
+    left: -2px;
+    top: 25%;
+    width: 20px;
+    height: 20px;
+    border-radius: 2px;
+    background-color: #000;
+    transform: rotate(45deg);
+    z-index: -1;
+}
+
+/*Ventana popover al clicar en una de las opciones del menú cuando está plegado*/
+.sidebar.active .menu .sub-menu {
+	position: fixed;
+	z-index: 200;
+	top: auto;
+	left: 57px;
+	width: 200px;
+	border-radius: 20px;
+	padding: 10px 20px;
+	border: 1px solid #f6f6f6;
+	background-color: #fff;
+	box-shadow: 0px 10px 8px rgba(0, 0, 0, 0.1);
+}
+
+/*Ventana popover para cuando tiene muchas opciones*/
+.sidebar.active .menu .sub-menu-large {
+	position: fixed;
+	z-index: 200;
+	columns: 3;
+	top: auto;
+	left: 57px;
+	width: 700px;
+	max-height: 500px;
+	border-radius: 20px;
+	padding: 10px 20px;
+	border: 1px solid #f6f6f6;
+	background-color: #fff;
+	box-shadow: 0px 10px 8px rgba(0, 0, 0, 0.1);
+}
+
+/*Clase para sub-menu dentro de sub-menu*/
+.sidebar.active .sub-menu-hijo {
+	left: 10%;
+}
+
+/*Icono flecha de los sub-menu del sub-menu*/
+.arrow-sub-menu {
+	transform: rotate(90deg);
+	transition: all 0.3s;
+}
+
+ul.sub-menu li.unfolded .arrow-sub-menu, ul.sub-menu-large li.unfolded .arrow-sub-menu	{
+	transform: rotate(270deg);
+}
+
+@media only screen and (max-width: 1800px) {
+	.layout-sanidad-active {
+		margin-right: 20%;
+		margin-left: 20%;
+		max-width: 60%;
+		transition: all 0.3s;
+		z-index: 0;
+	}
+}
+
+@media only screen and (max-width: 1500px) {
+	.layout-sanidad {
+		margin-left: 110px;
+		max-width: 80%;
+		transition: all 0.3s;
+		z-index: 0;
+	}
+	.layout-sanidad-active {
+		margin-left: 270px;
+		margin-right: 20px;
+		transition: all 0.3s;
+		z-index: 0;
+	}
+}
+
+

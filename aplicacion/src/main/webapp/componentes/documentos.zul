@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<?page zscriptLanguage="Groovy" style="height:100%"?>
+<?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul"
+  xmlns:n="http://www.zkoss.org/2005/zk/native"
+>
+
+  <vlayout id="vlDocumentos" apply="es.carm.pcacervix.componentes.DocumentosComposer">
+    <style>
+      .openable-item {
+      background-color: #dff0d8; /* Color de fondo verde claro */
+      font-weight: bold; /* Texto en negrita */
+      }
+    </style>
+    <div class="row">
+      <div class="col-md-12">
+        <n:div class="container-fluid">
+          <n:div clas="row">
+            <separator spacing="10px"/>
+            <button id="insertarDocumento" label="Nuevo" iconSclass="z-icon-plus"
+              class="btn btn-info btn-xs"/>
+            <button id="btnDescargarDocumento" autodisable="self" label="Descargar"
+              iconSclass="z-icon-download" zclass="btn" class="btn btn-primary btn-xs"
+              disabled="true"/>
+            <button id="btnBorrarDocu" label="Borrar" iconSclass="z-icon-trash-o"
+              class="btn btn-danger btn-xs pull-right" disabled="true"/>
+            <separator spacing="10px"/>
+            <listbox id="lbDocumentos" mold="paging" sizedByContent="true" pageSize="5"
+              height="null" span="true" emptyMessage="Ningun documento para mostrar">
+              <listhead sizable="true">
+                <listheader label="Id Documento" sort="auto(id)"/>
+                <listheader label="Fecha creación" sort="auto(fecha)"/>
+                <listheader label="Tipo Comunicación" sort="auto(tipo_comunicacion)"/>
+                <listheader label="Devuelto" sort="auto(devuelto)"/>
+                <listheader label="Id Estudio" sort="auto(id_estudio)"/>
+              </listhead>
+              <listitem self="@{each=documento}" value="@{documento.id}">
+                <listcell>
+                  <label value="@{documento.id}"/>
+                </listcell>
+                <listcell>
+                  <label
+                    value="@{documento.fecha, converter='org.zkoss.zkplus.databind.DateFormatConverter'}"
+                    self="@{format(dd/MM/yyyy) }"/>
+                </listcell>
+                <listcell>
+                  <label value="@{documento.tipo_comunicacion}"/>
+                </listcell>
+
+                <listcell>
+                  <label value="@{documento.devuelto}"/>
+                </listcell>
+                <listcell>
+                  <label value="@{documento.id_estudio}"/>
+                </listcell>
+              </listitem>
+            </listbox>
+          </n:div>
+          <!--VENTANA EMERGENTE-->
+          <window id="wndEdicionDocumento" class="ventana-modal" border="none" position="center"
+            visible="false" width="1000px">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="panel panel-primary">
+                  <div class="panel-heading">
+                    <n:div class="row">
+                      <n:div class="col-md-7 col-12">
+                        <label class="panel-title" id="tituloDocumento"
+                          style="font-weight:bold; font-size:12pt"></label>
+                      </n:div>
+                      <n:div class="col-md-4 col-12"></n:div>
+                      <n:div class="col-md-1 col-12">
+                        <button id="btnCerrarVentanaDocumento" iconSclass="z-icon-times"
+                          visible="false" autodisable="true" class="btn btn-xs pull-right"
+                          onClick="$composer.descartarCambios()"/>
+                      </n:div>
+                    </n:div>
+                  </div>
+                  <n:div class="panel-body mb-3">
+                    <n:div class="container-fluid">
+                      <n:div class="row">
+                        <div class="col-md-3 col-sm-3 col-xs-3 detalleDocumento">
+
+                          <n:label class="col-form-label">ID:</n:label>
+                          <textbox id="documento_id" style="border-style : none;"
+                            width="110px"/>
+                        </div>
+                        <n:div class="col-md-3 col-sm-3 col-xs-3">
+                          <n:label class="col-form-label w-100">Fecha:</n:label>
+                          <datebox id="documento_fecha" class="entrada-datos valor"
+                            width="150px"
+                            format="dd/MM/yyyy"/>
+                        </n:div>
+                        <n:div class="col-md-6 col-sm-6 col-xs-6">
+                          <textbox id="documento_id_profesional" visible="false"/>
+                          <n:label class="col-form-label">Profesional:</n:label>
+                          <textbox id="documento_nombre_profesional"
+                            style="border-style : none;"/>
+                        </n:div>
+                      </n:div>
+                      <separator spacing="12px"/>
+                      <n:div class="row">
+                        <n:div class="col-md-6 col-sm-6 col-xs-6">
+                          <n:label class="col-form-label">Documento:</n:label>
+                          <listbox id="documento_id_documento_def" style="display: inline;"
+                            mold="select" width="350px"
+                            class="form-control entrada-datos valor"/>
+                        </n:div>
+                        <div class="col-md-6 col-sm-6 col-xs-6 nuevoDocumento">
+                          <textbox id="documento_id_expediente" class="entrada-datos valor"
+                            visible="false"/>
+                          <textbox id="documento_id_persona" class="entrada-datos valor"
+                            visible="false"/>
+                          <n:label class="col-form-label nuevoDocumento">Estudio:</n:label>
+                          <textbox id="documento_id_estudio"
+                            class="entrada-datos valor nuevoDocumento"
+                            readonly="true"/>
+
+
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-xs-6 detalleDocumento">
+
+                          <n:label class="col-form-label " style="font-weight: bold;">Id
+                            emisión:
+                          </n:label>
+                          <textbox id="documento_id_emision" class="entrada-datos valor"
+                            disabled="true"/>
+
+                        </div>
+                      </n:div>
+                      <separator spacing="12px"/>
+
+                      <groupbox class="detalleDocumento">
+                        <caption label="Datos de la devolución"/>
+                        <separator spacing="5px"/>
+
+                        <n:div class="row">
+                          <n:div class="col-md-2">
+                            <n:label class="col-form-label">Fecha registro:</n:label>
+
+                          </n:div>
+
+                          <n:div class="col-md-3">
+                            <datebox id="documento_fecha_registro"
+                              class="entrada-datos valor"
+                              width="150px" format="dd/MM/yyyy" disabled="true"/>
+                          </n:div>
+
+                          <n:div class="col-md-3">
+                            <textbox id="documento_id_profesional_registro"
+                              visible="false"/>
+                            <n:label class="col-form-label">Profesional registro:</n:label>
+                          </n:div>
+
+                          <n:div class="col-md-4">
+                            <textbox id="documento_nombre_profesional_registro"
+                              style="border-style : none;"/>
+                          </n:div>
+
+                        </n:div>
+                        <separator spacing="12px"/>
+                        <n:div class="row">
+                          <n:div class="col-md-2">
+                            <n:label class="col-form-label">Fecha devolución:</n:label>
+                          </n:div>
+
+                          <n:div class="col-md-3">
+                            <datebox id="documento_fecha_devolucion"
+                              class="entrada-datos valor"
+                              constraint="no future" width="150px"
+                              format="dd/MM/yyyy"/>
+                          </n:div>
+
+                          <n:div class="col-md-3">
+                            <n:label class="col-form-label">Motivo devolución:</n:label>
+
+                          </n:div>
+
+                          <n:div class="col-md-4">
+                            <listbox id="documento_id_motivo" style="display: inline;"
+                              mold="select" width="250px"
+                              class="form-control entrada-datos valor"/>
+                          </n:div>
+
+                        </n:div>
+                      </groupbox>
+
+                      <groupbox class="detalleDocumento">
+                        <caption label="Gestión devolución"/>
+                        <separator spacing="5px"/>
+                        <n:div class="row">
+                          <n:div class="col-md-3 col-sm-3 col-xs-3">
+
+                            <checkbox id="documento_resuelto" checked="false"
+                              onCheck="$composer.clickGestionado()"
+                              disabled="true"
+                              label="Gestionado"/>
+                          </n:div>
+
+                          <n:div class="col-md-2">
+                            <n:label class="col-form-label">Fecha:</n:label>
+                          </n:div>
+                          <n:div class="col-md-3">
+                            <datebox id="documento_fec_resolucion"
+                              class="entrada-datos valor"
+                              width="150px" format="dd/MM/yyyy"/>
+                          </n:div>
+
+                        </n:div>
+                        <separator spacing="12px"/>
+                        <n:div class="row">
+                          <n:div class="col-md-3 col-sm-3 col-xs-3">
+
+                            <checkbox id="documento_dom_correcto" checked="false"
+                              disabled="true"
+                              label="Domicilio correcto"/>
+                          </n:div>
+
+                          <n:div class="col-md-2">
+                            <textbox id="documento_prof_resolucion" visible="false"/>
+                            <n:label class="col-form-label">Profesional:</n:label>
+                          </n:div>
+
+                          <n:div class="col-md-3">
+                            <textbox id="documento_nombre_profesional_resolucion"
+                              style="border-style : none;"/>
+                          </n:div>
+
+                        </n:div>
+                      </groupbox>
+
+                      <textbox id="documento_baseChecksum" visible="false"/>
+                    </n:div>
+                    <separator spacing="30px"/>
+                    <button id="btnEditarDocumento" iconSclass="z-icon-pencil" autodisable="true"
+                      class="btn btn-info btn-big pull-right" label="Editar"
+                      onClick="$composer.clickEditarDocumento()"/>
+                    <button id="btnGuardarDocumento" label="Guardar" autodisable="self"
+                      iconSclass="z-icon-save" class="btn btn-error btn-big"/>
+                    <button id="btnDescartarDocumento" label="Cancelar" iconSclass="z-icon-times"
+                      class="btn btn-big" style="margin-left: 10px"
+                      onClick="$composer.descartarCambios()"/>
+                  </n:div>
+
+                </div>
+              </div>
+            </div>
+          </window>
+
+        </n:div>
+      </div>
+    </div>
+  </vlayout>
+</zk>

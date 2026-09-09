@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk>
+  <session-config>
+     	<session-timeout>2700</session-timeout>
+    	<device-type>ajax</device-type>    
+    	<automatic-timeout/>
+    	<timeout-uri>/</timeout-uri>    
+	</session-config>
+ 
+	 <library-property>
+	    <name>org.zkoss.theme.preferred</name>
+	    <value>breeze</value>
+	 </library-property>
+ 
+</zk>

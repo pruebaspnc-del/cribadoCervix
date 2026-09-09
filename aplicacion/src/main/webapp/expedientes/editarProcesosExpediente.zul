@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<?page zscriptLanguage="Groovy" style="height:100%"?>
+<?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul"
+	xmlns:h="http://www.w3.org/1999/xhtml"
+	xmlns:n="http://www.zkoss.org/2005/zk/native"
+	xmlns:w="http://www.zkoss.org/2005/zk/client"
+	xmlns:ca="http://www.zkoss.org/2005/zk/client/attribute"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.zkoss.org/2005/zul/zul.xsd">	
+
+	<window id="wndEditarProcesosExpediente" apply="es.carm.pcacervix.expedientes.EditarProcesosExpedienteComposer" closable="true" class="ventana-modal" border="none" position="center" visible="false" width="80%">
+		
+		<div class="row">
+			<div class="col-md-12">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<n:div class="row">
+							<n:div class="col-md-7 col-12">
+								<label class="panel-title" id="tituloProcesoExp" style="font-weight:bold; font-size:12pt"></label>
+							</n:div>
+							<n:div class="col-md-4 col-12"></n:div>
+							<n:div class="col-md-1 col-12">
+								<!-- <button id="btnCerrarVentana" iconSclass="z-icon-times" autodisable="true" class="btn btn-danger btn-xs pull-right" />  -->
+							</n:div>
+						</n:div>
+					</div>
+					<n:div class="panel-body mb-3">
+						<n:div class="container-fluid">		
+							<n:div class="row">
+								<n:div class=" col-md-4 col-12">
+									<n:label class="col-form-label w-50">Tipo:</n:label>
+									<listbox id="proceso_tipo_proc_exp" mold="select" style="width:85%;display: inline;" class="form-control entrada-datos valor"/>
+								</n:div>
+								<n:div class=" col-md-4 col-12">
+									<n:label class="col-form-label w-50">ID:</n:label>
+									<textbox id="proceso_id" type="text" class="entrada-datos valor" width="45%" disabled="true"/>
+								</n:div>
+								<n:div class=" col-md-4 col-12">
+									<n:label class="col-form-label w-50">ID Padre:</n:label>
+									<textbox id="proceso_id_padre" class="entrada-datos valor" width="45%" type="text"/>
+								</n:div>
+							</n:div>
+							<separator spacing="10px" />		
+							<n:div class="row">
+								<n:div class=" col-md-4 col-12">
+									<n:label class="col-form-label w-50">Fec. Inicio:</n:label>
+									<datebox id="proceso_fecha_inicio" class="entrada-datos valor" width="45%" format="dd/MM/yyyy" constraint="no empty,no future"/>
+								</n:div>
+								<n:div class=" col-md-4 col-12">
+									<n:label class="col-form-label w-50">Fec. Fin:</n:label>
+									<datebox id="proceso_fecha_fin" class="entrada-datos valor" format="dd/MM/yyyy" width="45%" showTodayLink="true"/>
+								</n:div>
+								<n:div class=" col-md-4 col-12">
+									<n:label class="col-form-label w-50">Resultado:</n:label>
+									<listbox id="proceso_resultado_proc_exp" mold="select" style="width:70%;display: inline;" class="form-control entrada-datos valor"/>
+								</n:div>
+							</n:div>	
+							<separator spacing="5px" />	
+							<n:div class="row" style="display:none">
+								<n:div class="form-group col-md-1 col-12">
+									<n:label class="col-form-label w-100">Inicial</n:label>
+									<checkbox id="proceso_inicial" width="85%"/>
+								</n:div>
+								<n:div class="form-group col-md-1 col-12">
+									<n:label class="col-form-label w-100">Irregular</n:label>
+									<checkbox id="proceso_irregular" width="85%"/>
+								</n:div>
+							</n:div>
+							<textbox id="proceso_baseChecksum" visible="false"/>
+						</n:div>
+					<separator spacing="30px" />	
+					<button id="btnGuardarProcesoExp" label="Guardar" autodisable="self" iconSclass="z-icon-save" class="guardar btn-error btn-big" />
+					<button id="btnDescartarProcesoExp" label="Descartar Cambios" iconSclass="z-icon-undo" class="descartar tn btn-big" style="margin-left: 10px"/>
+					<!-- <button id="btnLimpiarCamposProcesoExp" label="Limpiar Campos" iconSclass="z-icon-undo" class="tn btn-big" />  -->
+					</n:div>		
+				</div>
+			</div>
+		</div>				
+
+	</window>
+</zk>

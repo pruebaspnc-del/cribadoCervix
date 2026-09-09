@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<?page zscriptLanguage="Groovy" style="height:100%"?>
+<?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c"?>
+<?component name="botoneraFormularioSanidad"  inline="true" macroURI="~./base/botoneraFormularioSanidad.zul"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul" xmlns:h="http://www.w3.org/1999/xhtml" 
+xmlns:n="http://www.zkoss.org/2005/zk/native" xmlns:w="http://www.zkoss.org/2005/zk/client" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.zkoss.org/2005/zul/zul.xsd">
+
+	<vlayout id="vlEstadoEstudioTipo" apply="es.carm.pcacervix.configuracion.TipoEstadoEstudioComposer" visible="false">
+		<div class="row">
+				<div class="col-md-12">
+					<div class="panel panel-primary">
+						<div class="panel-heading">
+							<h:h3 class="panel-title">Mantenimiento de los Tipos de Estados del Estudio</h:h3>
+						</div>
+						<div class="panel-body">
+								<button   autodisable="self" label="Nuevo" iconSclass="z-icon-plus-circle" zclass="btn" class="btn btn-info btn-xs pull" disabled="true"/>
+								<separator spacing="3px" />
+						  		<listbox id="lbTiposEstado" mold="paging" sizedByContent="true" pageSize="10" height="null" span="true">
+									<listhead sizable="true">
+										<listheader label="Id" sort="auto(id)"  />
+								        <listheader label="Código" sort="auto(codigo)"/>
+								    	<listheader label="Descipción" sort="auto(descripcion)" />
+								    </listhead>
+									  <listitem self="@{each=estadoTipo}" value="@{estadoTipo.id}">
+										  	<listcell><label value="@{estadoTipo.id}" /></listcell>
+											<listcell><label value="@{estadoTipo.codigo}" /></listcell>
+											<listcell><label value="@{estadoTipo.descripcion}"/></listcell>
+									  </listitem>	            
+								</listbox>
+						</div>
+					</div>
+				</div>
+			</div>			
+	</vlayout>
+</zk>

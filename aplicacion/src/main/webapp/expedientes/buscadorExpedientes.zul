@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<?page zscriptLanguage="Groovy" style="height:100%"?>
+<?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul" xmlns:h="http://www.w3.org/1999/xhtml" xmlns:n="http://www.zkoss.org/2005/zk/native" xmlns:w="http://www.zkoss.org/2005/zk/client" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.zkoss.org/2005/zul/zul.xsd">
+    <vlayout id="vlBuscadorExpedientes" apply="es.carm.pcacervix.expedientes.BuscadorExpedientesComposer" visible="false">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-primary">
+                    <n:div class="panel-heading">Buscador de Expedientes</n:div>
+                    <div class="panel-body">
+                        <n:div class="container-fluid">
+                            <n:div class="row">
+                                <n:div class="col-md-4">
+                                    <n:label class="col-form-label">Id:</n:label>
+                                    <space></space>
+                                    <textbox id="tbIdExpBusExp" onFocus="true" width="100px" class="form-control form-control-buscador input-sm" style="display: inline;" forward="onOK=btnBuscadorExpedientes.onClick"/>
+                                </n:div>
+                                <n:div class="col-md-4">
+                                    <n:label class="col-form-label w-100">Fecha Alta Desde:</n:label>
+                                    <space></space>
+                                    <datebox id="dbFecAltaDesdeBusExp" class="entrada-datos valor" width="110px" format="dd/MM/yyyy" constraint="no future"/>
+                                </n:div>
+                                <n:div class="col-md-4">
+                                    <n:label class="col-form-label w-100">Fecha Alta Hasta:</n:label>
+                                    <space></space>
+                                    <datebox id="dbFecAltaHastaBusExp" class="entrada-datos valor" width="110px" format="dd/MM/yyyy"/>
+                                </n:div>
+                            </n:div>
+                            <separator spacing="8px" />
+                            <n:div class="row">
+                                <n:div class="col-md-4">
+                                    <checkbox id="cbExpInactivosBusExp" checked="false" disabled="true" label="Expedientes Inactivos" style="display: inline;"/>
+                                </n:div>
+                                <n:div class="col-md-4">
+                                    <checkbox id="cbCancerPrevBusExp" checked="false" disabled="true" label="Cáncer Previo"/>
+                                </n:div>
+                            </n:div>
+                            <separator spacing="8px" />
+                            <div id="dvExpZBS" class="row">
+                                <n:div class="col-md-4">
+                                    <n:label class="col-form-label w-100">Zona Básica de Salud: </n:label>
+                                </n:div>
+                                <n:div class="col-md-4">
+                                    <listbox id="lbZonaSaludBusExp" mold="select" width="100%" class="form-control entrada-datos valor"/>
+                                </n:div>
+                            </div>
+                            <separator spacing="8px" />
+                            <n:div class="row">
+                                <n:div class="col-md-4">
+                                    <n:label class="col-form-label w-100">Último Proceso: </n:label>
+                                </n:div>
+                                <n:div class="col-md-4">
+                                    <listbox id="lbTipoProcesosBusExp" mold="select" width="100%" class="form-control entrada-datos valor"/>
+                                </n:div>
+                            </n:div>
+                            <separator spacing="8px" />
+                            <n:div class="row">
+                                <n:div class="col-md-4">
+                                    <n:label class="col-form-label w-100">Tipo de Estudio: </n:label>
+                                </n:div>
+                                <n:div class="col-md-4">
+                                    <listbox id="lbTipoEstudioExp" mold="select" width="100%" class="form-control entrada-datos valor"/>
+                                </n:div>
+                            </n:div>
+                            <separator spacing="8px" />
+                            <n:div class="row">
+                                <n:div class="col-md-4">
+                                    <n:label class="col-form-label w-100">Situación Último Estudio: </n:label>
+                                </n:div>
+                                <n:div class="col-md-4">
+                                    <listbox id="lbTipoEstadoEstudioBusExp" mold="select" width="100%" class="form-control entrada-datos valor"/>
+                                </n:div>
+                                <n:div class="col-md-4">
+                                    <checkbox id="cbTubosDispenBusExp" checked="false" label="Tubos dispensados" style="display: inline; display:none;"/>
+                                </n:div>
+                                <n:div class="col-md-4">
+                                    <checkbox id="cbExpRecepLabBusExp" checked="false" label="Recepcion Laboratorio" visible="false" style="display: inline;display:none;"/>
+                                </n:div>
+                            </n:div>
+                            <separator spacing="8px" />
+                            <n:div class="row">
+                                <n:div class="col-md-4">
+                                    <n:label class="col-form-label w-100">Tipo de Prueba: </n:label>
+                                </n:div>
+                                <n:div class="col-md-4">
+                                    <listbox id="lbTipoPruebaBusExp" mold="select" width="100%" class="form-control entrada-datos valor"/>
+                                </n:div>
+                                <n:div class="col-md-4">
+                                    <n:label class="col-form-label w-100">Fecha de Prueba:</n:label>
+                                    <space></space>
+                                    <datebox id="dbFecPruebaBusExp" class="entrada-datos valor" width="110px" format="dd/MM/yyyy"/>
+                                </n:div>
+                            </n:div>
+                            <separator spacing="17px" />
+                            <button id="btnBuscadorExpedientes" autodisable="self" label=" BUSCAR" iconSclass="z-icon-search" zclass="btn" class="btn btn-primary btn-xs pull-left" />
+                            <button id="btnBorrarFiltroBusExp" autodisable="self" label=" LIMPIAR FILTROS" iconSclass="z-icon-trash" zclass="btn" class="btn btn-warning btn-xs pull-right limpiarFiltro" />
+                        </n:div>
+                        <separator spacing="10px" />
+                        <n:div class="container-fluid">
+                            <listbox id="lbListaExpedientes" sizedByContent="true" mold="paging" pageSize="10" height="null" span="true" emptyMessage="Ningún expediente para mostrar">
+                                <listhead sizable="true">
+                                    <listheader label="Id Exp" sort="auto(id_expediente)"/>
+                                    <listheader label="Fec Alta" sort="auto(fecha_alta)"/>
+                                    <listheader label="Fec Baja" sort="auto(fecha_baja)"/>
+                                    <listheader label="Nombre" sort="auto(NOMBRE_COMPLETO)"/>
+                                    <listheader label="DNI/NIE" sort="auto(dni_nie)" />
+                                    <listheader id="headerTipoProceso" label="Proceso" sort="auto(tipo_proceso)" />
+                                    <listheader id="headerTipoEstudio" label="Estudio" sort="auto(tipo_estudio)"/>
+                                    <listheader id="headerTipoPrueba" label="Prueba" sort="auto(tipo_prueba)" visible="false"/>
+                                    <listheader id="headerFechaPrueba" label="Fec Prueba" sort="auto(fec_prueba)" visible="false"/>
+                                    <listheader id="headerCodProducto" label="Cod Producto" sort="auto(cod_producto)"/>
+                                    <listheader id="headerlogin" label="Login" sort="auto(login)"/>
+                                    <listheader id="headerPeticionEnviada" label="Petición Enviada" sort="auto(peticion_enviada)"/>
+                                </listhead>
+                                <listitem self="@{each=expediente}" value="@{expediente}">
+                                    <listcell><label value="@{expediente.id_expediente}" /></listcell>
+                                    <listcell><label value="@{expediente.fecha_alta}" /></listcell>
+                                    <listcell><label value="@{expediente.fecha_baja}" /></listcell>
+                                    <listcell><label value="@{expediente.NOMBRE_COMPLETO}" /></listcell>
+                                    <listcell><label value="@{expediente.dni_nie}" /></listcell>
+                                    <listcell><label value="@{expediente.tipo_proceso}" /></listcell>
+                                    <listcell><label value="@{expediente.tipo_estudio}" /></listcell>
+                                    <listcell><label value="@{expediente.tipo_prueba}" /></listcell>
+                                    <listcell><label value="@{expediente.fec_prueba}" /></listcell>
+                                    <listcell><label value="@{expediente.cod_producto}" /></listcell>
+                                    <listcell><label value="@{expediente.login}" /></listcell>
+                                    <listcell><checkbox checked="@{expediente.peticion_enviada}" disabled="true"/></listcell>
+                                </listitem>
+                            </listbox>
+                        </n:div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </vlayout>
+</zk>

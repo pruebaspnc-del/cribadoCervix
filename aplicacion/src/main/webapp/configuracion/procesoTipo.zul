@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<?page zscriptLanguage="Groovy" style="height:100%"?>
+<?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul" xmlns:h="http://www.w3.org/1999/xhtml" 
+xmlns:n="http://www.zkoss.org/2005/zk/native" xmlns:w="http://www.zkoss.org/2005/zk/client" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.zkoss.org/2005/zul/zul.xsd">
+<n:div class="container-fluid">
+<vlayout id="vlProcesoTipo" apply="es.carm.pcacervix.configuracion.TipoProcesoComposer" visible="false">
+		<div class="row">
+				<div class="col-md-12">
+					<div class="panel panel-primary">
+						<div class="panel-heading">
+							<h:h3 class="panel-title">Mantenimiento de los Tipos de Proceso</h:h3>
+						</div>
+						<div class="panel-body">
+				        <separator spacing="5px" />
+				        <groupbox title ="Tipos de Proceso">
+				        	<button id="btnInsertarProceso"  autodisable="self" label="Nuevo" iconSclass="z-icon-plus-circle" zclass="btn" class="btn btn-info btn-xs pull"/>
+				        	<button id="btnBorrarProceso" 	label="Borrar" iconSclass="z-icon-trash-o" class="borrar btn btn-danger btn-xs pull-right" disabled="true" />
+				        	<separator spacing="3px" />
+							<listbox id="lbListaProcesoTipo" mold="paging" sizedByContent="true" pageSize="8" height="null" span="true">
+								<listhead sizable="true">
+									<listheader label="Id" sort="auto(id_proceso_tipo)" />
+							    	<listheader label="Descipción" sort="auto(descripcion)" />
+							    </listhead>
+								   <listitem self="@{each=procesoTipo}" value="@{procesoTipo.id_proceso_tipo}">
+									  	<listcell><label value="@{procesoTipo.id_proceso_tipo}" /></listcell>
+										<listcell><label value="@{procesoTipo.descripcion}" /></listcell>
+								  </listitem>	          
+							</listbox>
+							</groupbox>
+							<separator spacing="10px" />
+							<tabbox class="mt-4">
+								<tabs>
+								 	<tab label="Estudios"/>
+									<tab label="Resultados"/>
+								</tabs>
+								<tabpanels>
+									<tabpanel id="tpEstudios" height="auto">
+										<button id="btnAsociarEstudio" label="Asociar Estudio" autodisable="self"  iconSclass="z-icon-plus-circle" zclass="btn" class="btn btn-info btn-xs pull" />
+										<button id="btnDesasociarEstudio" label="Desasociar Estudio" iconSclass="z-icon-trash-o" class="borrar btn btn-danger btn-xs pull-right" disabled="true" />
+				        				<separator spacing="3px" />
+										<listbox id="lbListaEstudioProcTipo" mold="paging" sizedByContent="true" pageSize="5" height="null" span="true">
+											<listhead sizable="true">
+												<listheader label="Id" sort="auto(id)" />
+										    	<listheader label="Descipción" sort="auto(descripcion)"  />
+										    </listhead>
+											  <listitem self="@{each=tipoEstudioProc}" value="@{tipoEstudioProc.id}">
+												  	<listcell><label value="@{tipoEstudioProc.id}" /></listcell>
+													<listcell><label value="@{tipoEstudioProc.descripcion}" class="desc"/></listcell>
+											  </listitem>	  		      
+										</listbox>
+									</tabpanel>
+									<tabpanel id="tpResultados" height="auto">
+										<button id="btnAsociarResultado"  autodisable="self" label="Asociar Resultado" iconSclass="z-icon-plus-circle" zclass="btn" class="btn btn-info btn-xs pull" disabled="true"/>
+										<separator spacing="3px" />
+										<listbox id="lbListaResultadoProcTip" mold="paging" sizedByContent="true" pageSize="8" height="null" span="true">
+											<listhead sizable="true">
+												<listheader label="Id" sort="auto(id)" />
+										    	<listheader label="Descipción" sort="auto(codigo)"/>
+										    </listhead>
+											 <listitem self="@{each=tipoResultadoProc}" value="@{tipoResultadoProc.id}">
+												  	<listcell><label value="@{tipoResultadoProc.id}" /></listcell>
+													<listcell><label value="@{tipoResultadoProc.descripcion}"/></listcell>
+											</listitem>	   	        
+										</listbox>
+									</tabpanel>
+								</tabpanels>
+							</tabbox>
+						
+						</div>
+					</div>
+					<!--  VENTANA EMERGENTE PARA INSERCCION/EDICION DE PROCESOS -->
+					<window id="wndEdicionTipoProceso" visible="false" closable="true" class="ventana-modal" position="center" width="60%">
+						
+						<div class="panel panel-primary">
+							<div class="panel-heading">
+								<n:div class="row">
+									<n:div class="col-md-7 ">
+										<label id="tituloTipoProc" class="panel-title" style="font-weight:bold; font-size:12pt"></label>
+									</n:div>
+									<n:div class="col-md-4 "></n:div>
+									<n:div class="col-md-1">
+										<button id="btnCerrarVentanaTipoProc" onClick="wndEdicionTipoProceso.visible=false" iconSclass="z-icon-times" class="btn btn-xs pull-right" /> 
+									</n:div>
+								</n:div>
+							</div>
+							<n:div class="panel-body mb-3">
+								<n:div class="container-fluid">	
+									<n:div class="row">
+										<n:div class="col-md-3">
+											<n:label class="col-form-label">Id:</n:label>
+										</n:div>
+										<n:div class="col-md-4">
+											<textbox id="tipoProceso_id" width="50%" readonly="true"></textbox>
+										</n:div>
+									</n:div>
+									<separator spacing="10px" />
+									<n:div class="row">
+										<n:div class="col-md-3">
+											<n:label class="col-form-label">Código:</n:label>
+										</n:div>
+										<n:div class="col-md-4">
+											<textbox id="tipoProceso_codigo"  width="70%"></textbox>
+										</n:div>
+									</n:div>
+									<separator spacing="10px" />
+									<n:div class="row">
+										<n:div class="col-md-3">
+											<n:label class="col-form-label">Descripción:</n:label>
+										</n:div>
+										<n:div class="col-md-7">
+											<textbox id="tipoProceso_descripcion"  width="100%"></textbox>
+										</n:div>
+									</n:div>
+									<textbox id="tipoProceso_baseChecksum" visible="false"/>
+								</n:div>
+								<separator spacing="20px" />
+								<n:div class="row">
+									<n:div class="col-md-12">
+										<button id="btnEditarTipoProc" onClick="$composer.clickEditarTipoProceso()"  iconSclass="z-icon-pencil" autodisable="self" class="btn btn-info btn-big pull-right" label="Editar"/>
+										<button id="btnGuardarTipoProc" label="Guardar"  autodisable="self" iconSclass="z-icon-save" class="guardar btn-big" />
+										<button id="btnDescartarTipoProc" label="Cancelar"  onClick="$composer.clickDescartarCambios()" autodisable="self"  iconSclass="z-icon-undo" class="descartar tn btn-big" />
+									</n:div>
+								</n:div>
+							</n:div>		
+						</div>
+										
+					</window> 
+					
+					<window id="wndAsociarEstudio" visible="false" closable="true" class="ventana-modal" position="center" width="40%">
+						<div class="panel panel-primary">
+							<div class="panel-heading">
+								<n:div class="row">
+									<n:div class="col-md-7 ">
+										<label id="titulo" class="panel-title" style="font-weight:bold; font-size:12pt"></label>
+									</n:div>
+								</n:div>
+							</div>
+							<n:div class="panel-body mb-3">
+								<n:label class="col-form-label w-100">Tipo de Estudio: </n:label>
+								<listbox id="lbListaEstudios" mold="select" width="80%" class="form-control entrada-datos valor"/>
+								<textbox id="id_proc_seleccionado" visible="false"/>
+								<separator spacing="20px" />
+								<n:div class="row">
+									<n:div class="col-md-12">
+										<button id="btnGuardarEstudioAsociado" label="Guardar" onClick="$composer.clickGuardarEstudioAsociado()" autodisable="self" iconSclass="z-icon-save" class="guardar btn btn-big" />
+										<button id="btnDescartarEstudioAsociado" label="Cancelar" onClick="$composer.clickDescartarCambios()" autodisable="self" iconSclass="z-icon-undo" class="descartar tn btn-big" />
+									</n:div>
+								</n:div>
+							</n:div>		
+						</div>
+					</window> 
+				</div>
+			</div>	
+	</vlayout>
+
+</n:div>
+</zk>

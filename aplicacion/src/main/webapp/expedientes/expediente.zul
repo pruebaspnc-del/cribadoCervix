@@ -1,0 +1,752 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<?page title="Expediente" contentType="text/html;charset=UTF-8" zscriptLanguage="Groovy" style="height:100%"?>
+<?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c"?>
+<?component name="botoneraFormularioSanidad"  inline="true" macroURI="~./base/botoneraFormularioSanidad.zul"?>
+<zk xmlns="http://www.zkoss.org/2005/zul" xmlns:h="http://www.w3.org/1999/xhtml" xmlns:n="http://www.zkoss.org/2005/zk/native"
+xmlns:w="http://www.zkoss.org/2005/zk/client" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.zkoss.org/2005/zul/zul.xsd">
+
+<style>
+
+	/* .z-panel-header, .z-panel-head {
+	        background: #EEEEEE;
+	} */
+	 
+	/* .z-listitem.z-listitem-selected.z-listitem-focus:hover > .z-listcell{
+		background: #3494CC;
+	}
+	.z-listitem.z-listitem-selected.z-listitem-focus > .z-listcell{
+		background: #3494CC;
+	}
+	.z-listitem.z-listitem-selected > .z-listcell{
+		background: #3494CC;
+	} 
+	.z-listitem.z-listitem-selected:hover > .z-listcell{
+		background: #3494CC;
+	} */
+	
+	.mainCaption { 
+			display: flex; 
+	}
+	
+	.mainCaption .z-caption-content { 
+		display: flex; flex-grow: 1; 
+	}
+	
+	.mainCaption .z-caption-content > .captionButtons {
+		display: inline-block; 
+		flex-grow: 1; 
+		text-align: right; 
+		margin-right: 1px; 
+	}
+	.captionButton { 
+			font-size: 18px; 
+			margin: 0px 0px 0px -1px;
+			padding: 2px 6px; 
+			border: 1px solid #cfcfcf; 
+			color: #636363;
+	}
+	.panelProcesos .z-textbox, .panelExpediente .z-textbox{
+		border: none;
+		font-family: inherit;
+		font-size : 12px;
+		width:50%; 
+		display: inline;
+		background:none;
+	}
+
+} 
+
+</style>
+
+<n:div class="container-fluid">
+	<vlayout id="vlExpediente" apply="es.carm.pcacervix.expedientes.ExpedienteComposer" visible="false" viewModel="@id('vm')" >
+	 <div fulfill="=../expedientes/editarProcesosExpediente.zul"/> 
+	 <div fulfill="=../expedientes/editarEstudiosProceso.zul"/> 
+	 <div fulfill="=../expedientes/editarPruebasEstudio.zul"/> 
+	 <div fulfill="=../expedientes/editarContactoEstudio.zul"/> 
+	 <div fulfill="=../expedientes/editarCitaEstudio.zul"/>
+	 
+	  
+		<n:div class="row">
+			<div class="col-md-12">
+				<separator spacing="5px" />
+				<div class="panel panel-primary">
+					<n:div class="panel-heading">
+						<h:h3 class="panel-title">Expediente</h:h3>
+						<!-- <button id="btnBorrarArchivarExp" label="Borrar/Archivar" iconSclass="z-icon-x" class="btn btn-info btn-xs pull-right"/>
+						<button id="btnVersionarExp" label="Versionar" iconSclass="z-icon-vimeo" class="btn btn-info btn-xs pull-right"/> -->
+					</n:div>
+					<div class="panel-body panelExpediente">
+						<n:div class="container-fluid">
+							<groupbox>
+								<caption  label="Expediente" />
+								<separator spacing="5px" />
+								<n:div class="row">
+									<n:div class="col-md-3">
+										<label style=" font-weight: bold" class="col-form-label" value="Id Expediente: "/>
+										<space/>
+										<label  id="expediente_id"/>
+									</n:div>
+									<n:div class="col-md-3">
+										<label style="font-weight: bold" class="col-form-label" value="Fecha alta: "/>
+										<space/>
+										<label id="expediente_fecha_alta"/>
+									</n:div>
+									<n:div class="col-md-3">
+										<label style="none; font-weight: bold" class="col-form-label" value="Fecha baja: "/>
+										<space/>
+										<label id="expediente_fecha_baja"/>
+										<space/>
+										<button id="btnEditarFecBajaExp" iconSclass="z-icon-edit" class="ver btn btn-sm btn-primary"/>
+									</n:div>
+									<n:div class="col-md-3">			
+										<label style=" font-weight: bold" class="col-form-label" value="Fecha fin: " />
+										<space/>
+										<label id="expediente_fecha_fin" />
+									</n:div>
+								</n:div>
+							</groupbox>
+							<separator spacing="5px" />
+							<groupbox>
+								<caption label="Último evento" />
+								<n:div class="row">
+									<n:div class="col-md-3">
+										<label style="font-weight: bold" class="col-form-label" value="Fecha: "/>
+										<space/>
+										<label id="expediente_fecha_evento" class="col-form-label"/>
+									</n:div>
+									<n:div class="col-md-3">
+										<label style="font-weight: bold" class="col-form-label" value="Tipo: "/>
+										<space/>
+										<label  id="expediente_tipo_evento" class="col-form-label"/>
+									</n:div>
+									<n:div class="col-md-3">
+										<label style="font-weight: bold"  class="col-form-label" value="Login: "/>
+										<space/>
+										<label id="expediente_login_evento_exp" class="col-form-label"/>
+									</n:div>
+									<n:div class="col-md-3">
+										<label style=" font-weight: bold"  class="col-form-label" value="Descripción: "/>
+										<space/>
+										<label id="expediente_descripcion_evento_exp" class="col-form-label"/>
+									</n:div>
+								</n:div>
+								</groupbox>
+								<separator spacing="5px" />
+								<groupbox>
+								<caption label="Persona" />
+									<n:div class="row">
+										<n:div class="col-md-4">
+											<label style="font-weight: bold"  class="col-form-label" value="Id persona: "/>
+											<space/>
+											<label id="expediente_id_persona" class="col-form-label"/>
+											<space/>
+											<button id="btnVerPersonaExpediente" iconSclass="z-icon-eye" class="ver btn btn-sm btn-primary"/>
+										</n:div>
+										<n:div class="col-md-4">
+											<label style="font-weight: bold"  class="col-form-label" value="Fecha Nac.: "/>
+											<space/>
+											<label id="expediente_persona_fecha_nacimiento" class="col-form-label" />
+										</n:div>
+										<n:div class="col-md-4">
+											<label style="font-weight: bold"  class="col-form-label" value="Sexo: "/>
+											<space/>
+											<label id="expediente_persona_descripcion_sexo" class="col-form-label" />
+										</n:div>
+									</n:div>
+									<separator spacing="5px" />
+									<n:div class="row">
+										<n:div class="col-md-4">
+											<label style=" font-weight: bold" class="col-form-label" value="Nombre: "/>
+											<space/>
+											<label id="expediente_persona_nombre" class="col-form-label"/>
+										</n:div>
+										<n:div class="col-md-4">
+											<label style=" font-weight: bold"  class="col-form-label" value="Apellido 1: "/>
+											<space/>
+											<label id="expediente_persona_apellido1" class="col-form-label"/>
+										</n:div>
+										<n:div class="col-md-4">
+											<label style="font-weight: bold"  class="col-form-label" value="Apellido 2: "/>
+											<space/>
+											<label id="expediente_persona_apellido2" class="col-form-label"/>
+										</n:div>
+									</n:div>
+									<separator spacing="10px" />
+									<n:div class="row">
+										<n:div class="col-md-4">
+											<label style=" font-weight: bold;"  class="col-form-label" value="DNI/NIE: "/>
+											<space/>
+											<label id ="expediente_dni_nie" class="col-form-label" />
+										</n:div>
+										<n:div class="col-md-4">
+											<label style="font-weight: bold;"  class="col-form-label" value="CIPR: "/>
+											<space/>
+											<label id ="expediente_cipr" class="col-form-label" />
+										</n:div>
+										<n:div class="col-md-4">
+											<button label="Otras identificaciones" id="btnVerIdentifiPers" iconSclass="z-icon-eye" class="ver btn btn-xs btn-primary" />
+										</n:div>
+									</n:div>
+									
+									<!-- VENTANA EMERGENTE PARA EDITAR FECHA DE BAJA DEL EXPEDIENTE -->
+									<window id="wndEditarFecBajaExp" visible="false" closable="true" class="ventana-modal" position="center" width="60%">
+										<div class="row">
+											<div class="col-md-12">
+												<div class="panel panel-primary">
+													<div class="panel-heading">
+														<n:div class="row">
+															<n:div class="col-md-7 ">
+																<label class="panel-title" style="font-weight:bold; font-size:12pt">Baja de Expediente</label>
+															</n:div>
+															<n:div class="col-md-4 "></n:div>
+															<n:div class="col-md-1">
+																<button id="btnCerrarVentanaEditFecBaja"  iconSclass="z-icon-times"  autodisable="true" class="btn btn-xs pull-right"/> 
+															</n:div>
+														</n:div>
+													</div>
+													<n:div class="panel-body mb-3">
+														<n:div class="container-fluid">	
+															<n:div class="row">
+																<n:div class="col-md-5">
+																	<n:label style="border-style : none;">Fecha Baja: </n:label> 
+																	<datebox id="fecha_baja_edicion" class="entrada-datos valor" format="dd/MM/yyyy" constraint="no future"/>
+																</n:div>
+																<n:div class="col-md-7">
+																	<n:label style="border-style : none;">Motivo: </n:label> 
+																	<listbox id="lbMotivoEvento" mold="select" width="70%" class="form-control entrada-datos valor" style="display: inline;"/>
+																</n:div>
+															</n:div>
+															<separator spacing="20px" />
+															<n:div class="row">
+																<n:div class="col-md-12">
+																	<button id="btnGuardarFecBajaExp" label="Guardar" onClick="$composer.clickGuardarFecBajaEdicion()" autodisable="self" iconSclass="z-icon-save" class="guardar btn-big" />
+																	<button id="btnDescartarFecBajaExp" label="Cancelar"  autodisable="self"  iconSclass="z-icon-undo" class="descartar tn btn-big" />
+																</n:div>
+															</n:div>
+														</n:div>
+													</n:div>		
+												</div>
+											</div>
+										</div>				
+									</window> 
+									
+									<!-- VENTANA EMERGENTE PARA MOSTRAR OTRAS IDENTIFICACIONES DE LA PERSONA -->
+									<window id="wndIdentif" visible="false" closable="true" class="ventana-modal" position="center" width="30%">
+										<div class="row">
+											<div class="col-md-12">
+											<div class="panel panel-primary">
+												<div class="panel-heading">
+													<n:div class="row">
+														<n:div class="col-md-7 ">
+															<label class="panel-title" style="font-weight:bold; font-size:12pt"> Identificación</label>
+														</n:div>
+														<n:div class="col-md-4 "></n:div>
+														<n:div class="col-md-1">
+															<button id="btnCerrarVentana" onClick="wndIdentif.visible=false" iconSclass="z-icon-times"  autodisable="true" class="btn btn-danger btn-xs pull-right" /> 
+														</n:div>
+													</n:div>
+												</div>
+												<n:div class="panel-body mb-3">
+													<n:div class="container-fluid">	
+														<n:div class="row">
+															<n:div class="col-md-12">
+																<listbox id="lbIdentPersExpediente" mold="paging" pageSize="5" rows="5" >
+																	<listhead sizable="true">
+																		<listheader label="Tipo"/>
+																		<listheader label="Valor" />
+																	</listhead>
+																	<listitem self="@{each=identif}" value="@{identif.ID_PERSONA}">
+																		<listcell><label value ="@{identif.CODIGO_IDENTIDAD_TIPO}" style="border-style : none;" /></listcell>
+																		<listcell><textbox value ="@{identif.VALOR}" style="border-style : none;" disabled="true"/></listcell>
+																	</listitem>
+																</listbox>
+															</n:div>
+														</n:div>
+													</n:div>
+												</n:div>		
+											</div>
+											</div>
+										</div>				
+									</window> 
+								</groupbox>
+								<!-- VENTANA EMERGENTE PARA MOSTRAR HISTORICO DE LOS ESTADOS DE UN ESTUDIO -->
+								<window id="wndHistoricoEstadosEstudio" visible="false" closable="true" class="ventana-modal" position="center">
+									<div class="row">
+										<div class="col-md-12">
+											<div class="panel panel-primary">
+												<div class="panel-heading">
+													<n:div class="row">
+														<n:div class="col-md-7 ">
+															<label class="panel-title" style="font-weight:bold; font-size:12pt">Histórico de los estados del estudio</label>
+														</n:div>
+													<n:div class="col-md-4 "></n:div>
+													<n:div class="col-md-1">
+														<button id="btnCerrarVentana" onClick="wndHistoricoEstadosEstudio.visible=false" iconSclass="z-icon-times"  autodisable="true" class="btn btn-xs pull-right" /> 
+													</n:div>
+												</n:div>
+											</div>
+											<n:div class="panel-body mb-3">
+												<n:div class="container-fluid">	
+													<n:div class="row">
+														<n:div>
+															<listbox id="lbHistEstadosEstudio" mold="paging" pageSize="5" rows="5"  sizedByContent="true">
+																<listhead sizable="true">
+																	<listheader label=""/>
+																		<listheader label="Estado" />
+																		<listheader label="Fecha Inicio" />
+																		<listheader label="Fecha Fin" />
+																</listhead>
+																<listitem self="@{each=estado}">
+																	<listcell><label value ="@{estado.CONTADOR}" style="border-style : none;" /></listcell>
+																	<listcell><label value ="@{estado.DESCRIPCION}" style="border-style : none;" /></listcell>
+																	<listcell><label value ="@{estado.FEC_INICIO_ESTADO}" style="border-style : none;" /></listcell>
+																	<listcell><label value ="@{estado.FEC_FIN_ESTADO}" style="border-style : none;" /></listcell>
+																</listitem>
+															</listbox>
+															</n:div>
+														</n:div>
+													</n:div>
+												</n:div>		
+											</div>
+										</div>
+									</div>				
+								</window> 
+								<separator spacing="20px" />
+									<listbox id="lbExpedienteProcesos" style="border:none;" mold="paging" span="true"  emptyMessage="Ningún dato para mostrar">
+										<listitem self="@{each=proceso}"  value="@{proceso.id}">
+										<custom-attributes noEstudios="@{proceso.noEstudios}"/>
+										<custom-attributes idProceso="@{proceso.id}"/>
+											<listcell>
+												<panel width="100%"  framable="true" collapsible="true" class="panelProcesos" >
+													<caption sclass="mainCaption" >
+														 <div align="center">
+															<n:label> Proceso: </n:label>
+															<label value="@{proceso.tipo_descripcion}"></label>
+															<n:label> - Resultado: </n:label>
+															<label value="@{proceso.resultado_tipo_descripcion}"></label>
+														 </div>
+														 <div align="center" sclass="captionButtons">
+														 	<button id="btnProceso@{idProceso}" iconSclass="z-icon-bars" onClick="$composer.clickMenuProceso(event)"
+																style="color: #000000; background: linear-gradient(to bottom, #FEFEFE 0%, #EEEEEE 100%)" class="btn-sm menuProcesos"/>
+															<menupopup label="@{idProceso}" id="@{idProceso}" >
+														    	<menuitem label="Insertar Proceso" onClick="$composer.clickInsertarNuevoProceso()" class="itemInsertProc" iconSclass="z-icon-plus" />
+													        	<menuitem label="Editar Proceso" onClick="$composer.clickEditarProceso(event)"  class="itemUpdateProc" iconSclass="z-icon-pencil" />
+													         	<menuitem label="Borrar Proceso" onClick="$composer.clickBorrarProceso(event)" class="itemDeleteProc" iconSclass="z-icon-trash" />
+													         	<menuitem label="Insertar Estudio"  iconSclass="z-icon-plus" onClick="$composer.clickInsertarEstudio(event)" style="@{noEstudios}" />
+															</menupopup> 
+														</div>
+													</caption>	
+													 <panelchildren style="padding:10px; border:none;">
+													 	<n:div class="row">
+															<n:div class="col-md-3">
+																<label style="font-weight: bold"  class="col-form-label" value="Id proceso: "/>
+																<space/>
+																<textbox value="@{proceso.id}" type="text" class="form-control" readonly="true"/>
+															</n:div>
+															<n:div class="col-md-3">
+																<label style="font-weight: bold"  class="col-form-label" value="Id padre: "/>
+																<space/>
+																<textbox value="@{proceso.id_padre}" type="text" class="form-control"  readonly="true"/>
+															</n:div>
+															<n:div class="col-md-3">
+																<label style="font-weight: bold"  class="col-form-label" value="Fecha Inicio: "/>
+																<space/>
+																<textbox value="@{proceso.fecha_inicio}" type="text" class="form-control" readonly="true" />
+															</n:div>
+															<n:div class="col-md-3">
+																<label style="font-weight: bold"  class="col-form-label" value="Fecha fin: "/>
+																<space/>
+																<textbox value="@{proceso.fecha_fin}" type="text" class="form-control" readonly="true" />
+															</n:div>
+														</n:div>	
+														<separator spacing="20px" />
+														
+														<!--  Seccion ESTUDIOS -->
+														<listbox class="lbEstudios" model="@{proceso.estudios}" style="border:none;">
+															<listitem  self="@{each=estudio}" value="@{estudio.id}">
+															<custom-attributes procesoId="@{proceso.id}"/>
+															<custom-attributes estudioId="@{estudio.id}"/>
+															<custom-attributes finalizado="@{estudio.finalizado}"/>
+															<custom-attributes activo="@{estudio.activo}"/>
+																<listcell>
+																	<panel class="panelEstudios" border="normal" collapsible="true">
+																		<caption sclass="mainCaption" >
+																			 <div align="center">
+																				<n:label> Estudio: </n:label>
+																				<label value="@{estudio.descripcion_estudio_tipo}"/>
+																				<!-- En la cabecera mostraremos una de las siguientes opciones: 1 si el estudio esta abierto, el Estado en que se encuentra. 2- si esta finalizado, el Resultado -->
+																			    <label visible="@{finalizado}" style="font-weight: bold;" > - Resultado: </label>
+																			    <label visible="@{finalizado}" value=" @{estudio.descrip_estudio_resultado_tipo} "/>
+																			    <label visible="@{finalizado}" style="font-weight: bold;" > - Fec. Resultado: </label>
+																			    <label visible="@{finalizado}" value=" @{estudio.fecha_resultado} "/>
+																			        
+																			    <label visible="@{activo}" style="font-weight: bold;"> - Estado: </label>
+																			    <label visible="@{activo}" value="@{estudio.descripcion_estado_estudio}"></label>
+																			
+																			 </div>
+																			 <div align="center" sclass="captionButtons">
+																			 	<textbox class="procesoNuevoEsudio" value="@{estudio.id_proceso}" visible="false" disabled="true"/>
+																			 	<button iconSclass="z-icon-bars " onClick="$composer.clickMenuEstudio(event)"
+																			 		style="color: #000000; background: linear-gradient(to bottom, #FEFEFE 0%, #EEEEEE 100%);" class="btn-sm menuEstudios" />
+																				<menupopup>
+																					<menuitem label="Insertar Estudio" onClick="$composer.clickInsertarEstudio(event)" class="itemInsertarEst" iconSclass="z-icon-plus"/>
+																		        	<menuitem label="Editar Estudio" onClick="$composer.clickEditarEstudio(event)" class="itemUpdateEst" iconSclass="z-icon-pencil" />
+																		         	<menuitem label="Borrar Estudio" onClick="$composer.clickBorrarEstudio(event)" class="itemDeleteEst" iconSclass="z-icon-trash" />
+																			    </menupopup>
+																			 </div> 
+																		</caption>	
+																		<panelchildren style="padding:10px;  background:none;" >
+																			<n:div class="row">
+																				<n:div class="col-md-3">
+																					<label style="font-weight: bold"  class="col-form-label" value="Estudio Id:"/>
+																					<space/>
+																					<textbox value="@{estudio.id}" type="text" class="form-control"  readonly="true"/>
+																				</n:div>
+																				<n:div class="col-md-3">
+																					<label style="font-weight: bold"  class="col-form-label" value="Fecha Inicio:"/>
+																					<space/>
+																					<textbox value="@{estudio.fecha_inicio}" type="text" class="form-control" readonly="true" />
+																				</n:div>
+																				<n:div class="col-md-4">
+																					<label style="font-weight: bold"  class="col-form-label" value="Fecha Resultado:"/>
+																					<space/>
+																					<textbox value="@{estudio.fecha_resultado}" type="text" class="form-control" readonly="true"/>
+																				</n:div>
+																			</n:div>
+																			<separator spacing="5px" />
+																			<n:div class="row">
+																				<n:div class="col-md-10">
+																					<label style="font-weight: bold" class="col-form-label" value="Estado:"/>
+																					<space/>
+																					<textbox value="@{estudio.descripcion_estado_estudio}" type="text" class="form-control" readonly="true"/>
+																					<space/>
+																					<button onClick="$composer.clickVerHistoricoEstados(estudioId)" iconSclass="z-icon-h-square" class="ver btn-primary historicoEstadosEst btn btn-sm" />
+																				</n:div> 
+																			</n:div>
+																			
+																			<separator spacing="5px" />
+																			<n:div class="row">
+																				<n:div class="col-md-4">
+																					<label style="font-weight: bold" class="col-form-label" value="Profesional:"/>
+																					<space/>
+																					<textbox value="@{estudio.profesional}" type="text" class="form-control" readonly="true" />
+																				</n:div>
+																				<n:div class="col-md-8">
+																					<label style="font-weight: bold" class="col-form-label" value="Unidad Funcional:"/>
+																					<space/>
+																					<label class="col-form-label" value="@{estudio.descripcion_unidad_funcional}"/>
+																				</n:div>
+																			</n:div>
+																			<separator spacing="10px" />
+																			<!-- Seccion PRUEBAS -->
+																			<separator spacing="10px" />
+																			<tabbox class="mt-4">
+																				<tabs>
+																					<tab label="Pruebas" />
+																					<tab label="Productos Dispensados" visible = "@{estudio.estudio_vph}" />
+																				</tabs>
+																				<tabpanels>
+																					<tabpanel height="auto">
+																						<custom-attributes estudioId="@{estudio.id}"/>
+																						<custom-attributes estudioEstadoId="@{estudio.id_estado_estudio}"/>
+																						<custom-attributes estudioResultadoTipoId="@{estudio.id_estudio_resultado_tipo}"/>
+																						<custom-attributes estudioProcesoId="@{estudio.id_proceso}"/>
+																						<custom-attributes estudioTipoId="@{estudio.id_estudio_tipo}"/>
+																						<custom-attributes btnPruebaDisabled="@{estudio.btnPruebaDisabled}"/>
+																						<button label="Nueva" iconSclass="z-icon-plus" class="insertarPruebaExp btn btn-info btn-xs" disabled="@{btnPruebaDisabled}"/>
+																						<button label="Borrar" iconSclass="z-icon-trash-o" onClick="$composer.clickBorrarPrueba(event)" class="borrarPruebaExp btn btn-danger btn-xs pull-right" visible="false" disabled="true" />
+																						<separator spacing="5px" />
+																						<listbox class="lbPruebasExp" model="@{estudio.pruebas}" mold="paging" sizedByContent="true" pageSize="5" rows="3" span="true" emptyMessage="Ninguna prueba para mostrar">
+																							<listhead sizable="true">
+																								<listheader label="ID" sort="auto(id)" />
+																								<listheader label="Fecha" sort="auto(fecha)" />
+																								<listheader label="Tipo" sort="auto(descripcion)" />
+																								<listheader label="Resultado" sort="auto(VALOR_RESULTADO)" />
+                                                                                                <listheader label="Pdf resultado" sort="auto(PDF_RESULT)" hflex="min"/>
+																								<listheader label="Petición" visible="@{estudio.headerPeticion}" />
+																								<listheader label="Acción" width="60px"  visible="@{estudio.headerPeticion}" hflex="min"/>
+																							</listhead>
+																							<listitem self="@{each=prueba}" value="@{prueba.id}" >
+																							<custom-attributes estudioId="@{estudio.id}"/>
+																							<custom-attributes tienePeticion="@{prueba.peticion_enviada}"/>
+																								<listcell>
+																									<label value="@{prueba.id}"/>
+																								</listcell>
+																								<listcell>
+																									<label value="@{prueba.fecha}" />
+																								</listcell>
+																								<listcell>
+																									<label value="@{prueba.descripcion}" />
+																								</listcell>
+																								<listcell>
+																									<label value="@{prueba.VALOR_RESULTADO}" />
+																								</listcell>
+                                                                                                <listcell>
+                                                                                                    <button id="btnPruebaPdf"
+                                                                                                            class="btn btn-sm btn-link"
+                                                                                                            style="color: #408c6b"
+                                                                                                            href=""
+                                                                                                            label="Ver informe"
+                                                                                                            target="_blank"
+                                                                                                            visible="@{prueba.EXISTE_PDF}"
+                                                                                                            onClick="$composer.clickInforme(event)">
+                                                                                                                <custom-attributes prueba="@{prueba}" />
+                                                                                                    </button>
+                                                                                                </listcell>
+																								<listcell >
+																									<label value="@{prueba.peticion_enviada}"/>
+																								</listcell>
+																								<listcell visible="@{prueba.mostrarBotonEnviar}">
+																									<button label="Enviar Petición" autodisable="self" zclass="btn" class="enviarPeticion btn-warning btn-xs" visible="@{prueba.btnPeticVisib}" disabled="@{prueba.btnPeticDisab}"/>
+																								</listcell>
+																							</listitem>
+																						</listbox>	
+																					</tabpanel>
+																					<tabpanel height="auto" visible = "@{estudio.estudio_vph}">
+																						<listbox class="lbProductosExp" model="@{estudio.productos}" mold="paging" sizedByContent="true" pageSize="5" rows="3" span="true" emptyMessage="Ningun Producto para mostrar">
+																							<listhead sizable="true">
+																								<listheader label="COD Producto" sort="auto(cod_producto)" />
+																								<listheader label="Id Prueba" sort="auto(id_prueba)" />
+																								<listheader label="Fec. Dispensación" sort="auto(FEC_DISPENSACION)" />
+																								<listheader label="COD Farmacia" sort="auto(COD_FARMACIA)"  />
+																								<listheader label="Fec. Estado" sort="auto(fec_estado)"  />
+																								<listheader label="Estado" sort="auto(estado)" />
+																							</listhead>
+																							<listitem self="@{each=producto}" value="@{producto.cod_producto}" >
+																								<listcell>
+																									<label value="@{producto.cod_producto}" />
+																								</listcell>
+																								<listcell>
+																									<label value="@{producto.id_prueba}" />
+																								</listcell>
+																								<listcell>
+																									<label value="@{producto.FEC_DISPENSACION}"/>
+																								</listcell>
+																								<listcell>
+																									<label value="@{producto.COD_FARMACIA}" />
+																								</listcell>
+																								<listcell>
+																									<label value="@{producto.fec_estado}" />
+																								</listcell>
+																								<listcell>
+																									<label value="@{producto.estado}" />
+																								</listcell>
+																							</listitem>
+																						</listbox>	
+																					</tabpanel>
+																				</tabpanels>
+																			</tabbox>
+																		</panelchildren>
+																	</panel>
+																</listcell>
+															</listitem>
+														</listbox>
+													</panelchildren>
+												</panel>
+											</listcell>
+										</listitem>
+									</listbox>
+								<separator spacing="10px" />
+								<tabbox class="mt-4">
+									<tabs>
+									 	
+								<!--	<tab label="Notas"/>	-->
+										<tab label="Contacto telefónico"/>
+										<tab label="Notificaciones"/>
+										<tab label="Citas" />
+										<tab label="Vacunación"/>
+									</tabs>
+									<tabpanels>
+										<tabpanel id="tpContacto" height="auto">
+											<button id="btnInsertarContacto" label="Nuevo" iconSclass="z-icon-plus" class="btn btn-info btn-xs"/>
+											<button id="btnBorrarContacto" 	label="Borrar" iconSclass="z-icon-trash-o" class="btn btn-danger btn-xs pull-right" disabled="true" />
+											<separator spacing="5px" />
+											<listbox id="lbExpediente_contacto" mold="paging" pageSize="5" emptyMessage="Ningún contacto para mostrar">
+												<listhead sizable="true">
+													<listheader label="Fecha" sort="(fecha)" width="15%"/>
+													<listheader label="Motivo" sort="auto(descripcion_motivo_contacto)" width="25%"/>
+													<listheader label="Observaciones" sort="auto(observaciones)" width="40%"/>
+													<listheader label="Contactado" sort="auto(CONTACTADO)" width="10%"/>
+													<listheader label="Id Estudio" sort="auto(id_estudio)" width="10%"/>
+												</listhead>
+												<listitem self="@{each=contacto}" value="@{contacto.CONTADOR}">
+													<listcell>
+														<label value="@{contacto.fecha}"/>
+													</listcell>
+													<listcell >
+														<label value="@{contacto.descripcion_motivo_contacto}"/>
+													</listcell>
+													<listcell>
+														<label value="@{contacto.OBSERVACIONES}" />
+													</listcell>
+													<listcell>
+														<label value="@{contacto.CONTACTADO}" />
+													</listcell>
+													<listcell>
+														<label class="idEstudioContacto" value="@{contacto.id_estudio}"/>
+													</listcell>
+												</listitem>
+											</listbox>
+										</tabpanel>
+										<tabpanel id="tpNotificaciones" height="auto">
+											<button id="btnInsertarNotificacion" label="Nuevo" iconSclass="z-icon-plus" class="btn btn-info btn-xs" disabled="true"/>
+											<button id="btnDescargarNotificacionExp" autodisable="self" label="Descargar"
+												iconSclass="z-icon-download" zclass="btn" class="btn btn-primary btn-xs"
+												disabled="true"/>
+											<separator spacing="10px" />
+											<listbox id="lbExpediente_notificacion" mold="paging" sizedByContent="true" pageSize="5" height="null" span="true" emptyMessage="Ninguna notificación para mostrar">
+												<listhead sizable="true">
+													<listheader label="Id" sort="(id)"/>
+													<listheader label="Tipo Notificación" sort="auto(id_notificacion_tipo)"/>
+													<listheader label="Tipo Comunicación" sort="auto(tipo_comunicacion)"/>
+													<listheader label="Fecha" sort="(fecha)"/>
+													<listheader label="Devuelto" sort="auto(medio_comunicacion)"/>
+													<listheader label="Id Estudio" sort="auto(id_estudio)"/>
+												</listhead>
+												<listitem self="@{each=notificacion}" value="@{notificacion}">
+													<listcell>
+														<label value="@{notificacion.id}"  />
+													</listcell>
+													<listcell>
+														<label value="@{notificacion.tipo_notificacion}" />
+													</listcell>
+													<listcell>
+														<label value="@{notificacion.tipo_comunicacion}" />
+													</listcell>
+													<listcell>
+														<label value="@{notificacion.fecha}"  />
+													</listcell>
+													<listcell>
+														<label />
+													</listcell>
+													<listcell>
+														<label value="@{notificacion.id_estudio}"/>
+													</listcell>
+												</listitem>
+											</listbox>
+										</tabpanel>
+										<tabpanel id="tpCita" height="auto">
+											<separator spacing="5px" />
+										<!-- <button id="btnCrearCitaExp" label="Nueva" iconSclass="z-icon-plus" class="btn btn-info btn-xs" />
+											<button id="btnBorrarCitaExp" label="Borrar" iconSclass="z-icon-trash-o" class="btn btn-danger btn-xs pull-right" disabled="true" /> -->
+											<separator spacing="5px" />
+											<listbox id="lbExpediente_cita" mold="paging" sizedByContent="true" pageSize="5" height="null" span="true" emptyMessage="Ninguna cita para mostrar">
+												<listhead sizable="true">
+													<listheader label="Fecha Cita" sort="auto(FECHA_CITA)" width="30%" />
+													<listheader label="Hora" sort="auto(hora)" width="20%" />
+													<!-- <listheader label="Tipo de Cita" sort="auto(fuente)" width="50%" />
+													<listheader label="Centro de Salud" sort="auto(centro_salud)" width="50%" /> -->
+													<listheader label="ID Estudio" sort="auto(id_estudio)" width="40%" /> 
+													<listheader label="Profesional" sort="auto(profesional)" width="40%" />
+												</listhead>
+												<listitem self="@{each=cita}" value="@{cita.id}">
+													<listcell><label value ="@{cita.fecha_cita}"/></listcell>
+													<listcell><label value ="@{cita.hora}"/></listcell>
+													<!-- <listcell><label value ="@{cita.tipo_cita}"/></listcell>
+													<listcell><label value ="@{cita.centro_salud}"/></listcell> -->
+													<listcell><label value ="@{cita.id_estudio}"/></listcell>
+													<listcell><label value ="@{cita.profesional}"/></listcell>
+												</listitem>
+											</listbox>
+										</tabpanel>
+										<!-- <tabpanel id="tpNotas" height="auto">
+											<button id="btnInsertarNota" label="Nueva" iconSclass="z-icon-plus" class="btn btn-info btn-xs" disabled="true" />
+											<button id="btnBorrarNota" 	label="Borrar" iconSclass="z-icon-trash-o" class="btn btn-warning btn-xs pull-right" disabled="true" />
+											<separator spacing="10px" />
+											<listbox id="lbexpediente_notas" mold="paging" pageSize="5" rows="5" span="true" emptyMessage="Ninguna nota para mostrar">
+												<listhead sizable="true">
+													<listheader label="Fecha" sort="auto(fecha)" width="100px" />
+													<listheader label="Profesional" sort="auto(profesional)" width="100px" />
+													<listheader label="Notas" sort="auto(notas)" width="100px" />
+													<listheader label="Acción" width="90px" />
+												</listhead>
+												<listitem self="@{each=nota}" value="@{nota.id_expediente_contador}">
+													<listcell>
+														<label value="@{nota.fecha, converter='org.zkoss.zkplus.databind.DateFormatConverter'}" self="@{format(dd/MM/yyyy)}" />
+													</listcell>
+													<listcell>
+														<label value="@{nota.id_profesional}" />
+													</listcell>
+													<listcell>
+														<label value="@{nota.notas}" />
+													</listcell>
+													<listcell>
+														<button label="Editar" class="modificar btn btn-xs btn-primary" />
+													</listcell>
+												</listitem>
+											</listbox>
+											<separator spacing="10px" />
+											<div class="row">
+												<div class="col-md-12">
+													<label class="col-md-1 control-label etiqueta" value="Fecha:" />
+													<div class="col-md-2 no-margen">
+														<datebox id="nota_fecha" class="entrada-datos valor" format="dd/MM/yyyy" disabled="true" width="100%" constraint="no future" />
+													</div>
+													<label class="col-md-1 control-label etiqueta" 	value="Profesional:" />
+													<textbox id="nota_id_profesional" class="col-md-2 entrada-datos valor" disabled="true" 	visible="false" />
+													<textbox id="nota_profesional" class="col-md-4 entrada-datos valor" disabled="true" />
+												</div>
+											</div>
+											<separator spacing="10px" />
+											<div class="row">
+												<div class="col-md-12">
+													<label class="col-md-1 control-label etiqueta" value="Notas:" />
+													<textbox id="nota_notas" class="col-md-11 entrada-datos valor" rows="3" disabled="true" />
+												</div>
+											</div>
+										</tabpanel> 
+									-->
+										<tabpanel id="tpVacunacion" height="auto">
+											<listbox id="lbExpediente_vacunacion" mold="paging" sizedByContent="true" height="null"
+													 pageSize="5" span="true" emptyMessage="Ningún registro para mostrar">
+												<listhead sizable="true">
+													<listheader label="Fecha" sort="auto(fecha)" />
+													<listheader label="Producto" sort="auto(producto)" />
+													<listheader label="Desc. vacuna" sort="auto(desc_vacuna)" />
+													<listheader label="Nº dosis" sort="auto(n_dosis)"/>
+													<listheader label="Puesto" sort="auto(puesto)"/>
+													<listheader label="Indicación" sort="auto(indicacion)" />
+													<listheader label="Lote" sort="auto(lote)" />
+													<listheader label="Indicación personal" sort="auto(indicacion_personal)" />
+												</listhead>
+												<listitem self="@{each=vacunacion}" value="@{vacunacion}">
+													<listcell>
+														<label value="@{vacunacion.fecha}"/>
+													</listcell>
+													<listcell >
+														<label value="@{vacunacion.producto}"/>
+													</listcell>
+													<listcell>
+														<label value="@{vacunacion.desc_vacuna}" />
+													</listcell>
+													<listcell>
+														<label value="@{vacunacion.n_dosis}" />
+													</listcell>
+													<listcell>
+														<label value="@{vacunacion.puesto}"/>
+													</listcell>
+													<listcell>
+														<label value="@{vacunacion.indicacion}"/>
+													</listcell>
+													<listcell>
+														<label value="@{vacunacion.lote}"/>
+													</listcell>
+													<listcell>
+														<label value="@{vacunacion.indicacion_personal}"/>
+													</listcell>
+												</listitem>
+											</listbox>
+										</tabpanel>
+									</tabpanels>
+								</tabbox>
+							</n:div>
+							<separator spacing="20px" />
+						</div>
+					</div>
+				</div>
+			</n:div>
+		</vlayout>
+	</n:div>
+</zk>

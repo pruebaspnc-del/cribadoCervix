@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<?page zscriptLanguage="Groovy" style="height:100%"?>
+<?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul"
+  xmlns:h="http://www.w3.org/1999/xhtml"
+  xmlns:n="http://www.zkoss.org/2005/zk/native"
+  xmlns:w="http://www.zkoss.org/2005/zk/client"
+  xmlns:ca="http://www.zkoss.org/2005/zk/client/attribute"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.zkoss.org/2005/zul/zul.xsd">
+
+  <vlayout id="vlNotas" apply="es.carm.pcacervix.componentes.NotasComposer">
+    <div class="row">
+      <div class="col-md-12">
+        <n:div class="container-fluid">
+          <n:div class="row">
+            <separator spacing="10px" />
+            <button id="insertarNotas" label="Nuevo" iconSclass="z-icon-plus" class="btn btn-info btn-xs"/>
+            <button id="borrarNotas" label="Borrar" iconSclass="z-icon-trash-o" class="btn btn-danger btn-xs pull-right" disabled="true" />
+            <separator spacing="7px" />
+            <listbox id="lbNotas" mold="paging" pageSize="5" height="null" span="true" emptyMessage="Ninguna nota para mostrar">
+              <listhead sizable="true">
+                <listheader label="Fecha" sort="(FECHA)"/>
+                <listheader label="Profesional" sort="auto(PROFESIONAL)"/>
+                <listheader label="Notas" sort="auto(NOTAS)"/>
+              </listhead>
+              <listitem self="@{each=nota}" value="@{nota}">
+                <listcell>
+                  <label value="@{nota.FECHA}"  />
+                </listcell>
+                <listcell>
+                  <label value="@{nota.PROFESIONAL}" />
+                </listcell>
+                <listcell>
+                  <label value="@{nota.NOTAS}" />
+                </listcell>
+              </listitem>
+            </listbox>
+          </n:div>
+          <!-- VENTANA EMERGENTE PARA MOSTRAR HISTORICO DE LOS ESTADOS DE UN ESTUDIO -->
+          <window id="wndEdicionNotas" visible="false" closable="true" class="ventana-modal" position="center" width="1000px">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="panel panel-primary">
+                  <div class="panel-heading">
+                    <n:div class="row">
+                      <n:div class="col-md-7 ">
+                        <label id="tituloNota" class="panel-title" style="font-weight:bold; font-size:12pt"></label>
+                      </n:div>
+                      <n:div class="col-md-4 "></n:div>
+                      <n:div class="col-md-1">
+                        <button id="btnCerrarVentanaNotas" onClick="wndEdicionNotas.visible=false" iconSclass="z-icon-times"  autodisable="true" class="btn btn-xs pull-right" />
+                      </n:div>
+                    </n:div>
+                  </div>
+                  <n:div class="panel-body mb-3">
+                    <n:div class="container-fluid">
+                      <n:div class="row">
+                        <textbox id="notas_id" visible="false"/>
+                        <n:div class="col-md-6 col-sm-6 col-xs-6">
+                          <n:label class="col-form-label">Profesional:</n:label>
+                          <textbox  id="notas_id_profesional" style="border-style : none;" readonly="true" visible="false"/>
+                          <textbox  id="notas_id_profesional_actual" style="border-style : none;" readonly="true" visible="false"/>
+                          <textbox  id="notas_id_expediente" style="border-style : none;" readonly="true" visible="false"/>
+                          <textbox  id="notas_contador" style="border-style : none;" readonly="true" visible="false"/>
+                          <textbox  id="notas_nombre_profesional" style="border-style : none;" width="300px" readonly="true"/>
+                        </n:div>
+                        <n:div class="col-md-3 col-sm-3 col-xs-3">
+                          <n:label class="col-form-label w-100">Fecha:</n:label>
+                          <datebox id="notas_fecha" class="entrada-datos valor" width="150px" format="dd/MM/yyyy HH:mm" readonly="true"/>
+                        </n:div>
+                      </n:div>
+                      <separator spacing="12px" />
+                      <n:div class="row">
+                        <n:div class="col-md-6 col-sm-6 col-xs-6">
+                          <n:label class="campoObligatorio">*</n:label>
+                          <n:label class="col-form-label">Notas:</n:label>
+                          <textbox id="notas_notas" class="entrada-datos" width="330px" rows="3" disabled="true" />
+                        </n:div>
+                      </n:div>
+                    </n:div>
+                    <separator spacing="30px" />
+                    <button id="btnEditarNotas" iconSclass="z-icon-pencil" autodisable="true" class="btn btn-info btn-big pull-right" label="Editar" onClick="$composer.clickEditarNotas()"/>
+                    <button id="btnGuardarNotas" label="Guardar" autodisable="self" iconSclass="z-icon-save" class="guardar btn-error btn-big" />
+                    <button id="btnDescartarNotas" label="Cancelar" iconSclass="z-icon-times" class="descartar btn btn-big" style="margin-left: 10px" onClick="$composer.descartarCambios()"/>
+                  </n:div>
+                </div>
+              </div>
+            </div>
+          </window>
+        </n:div>
+      </div>
+    </div>
+  </vlayout>
+</zk>
